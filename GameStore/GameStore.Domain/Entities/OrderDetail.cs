@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace GameStore.Domain.Entities
 {
@@ -14,8 +13,7 @@ namespace GameStore.Domain.Entities
 
         public int? GameId { get; set; }
 
-        [BsonIgnore]
-        public virtual Game Game { get; set; }
+        public Game Game { get; set; }
 
         public decimal Price { get; set; }
 
@@ -25,7 +23,6 @@ namespace GameStore.Domain.Entities
 
         public int OrderId { get; set; }
 
-        [BsonIgnore]
-        public virtual Order Order { get; set; }
+        public Order Order { get; set; }
     }
 }

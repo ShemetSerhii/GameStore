@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace GameStore.Domain.Entities
 {
@@ -16,12 +15,6 @@ namespace GameStore.Domain.Entities
         [MaxLength(100)]
         public string Type { get; set; }
 
-        [BsonIgnore]
-        public virtual ICollection<Game> Games { get; set; }
-
-        public PlatformType()
-        {
-            Games = new List<Game>();
-        }
+        public ICollection<Game> Games { get; set; }
     }
 }

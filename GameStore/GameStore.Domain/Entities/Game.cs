@@ -11,8 +11,6 @@ namespace GameStore.Domain.Entities
 
         public bool IsDeleted { get; set; }
 
-        public string CrossProperty { get; set; }
-
         public string Key { get; set; }
 
         public string Name { get; set; }
@@ -33,25 +31,14 @@ namespace GameStore.Domain.Entities
 
         public int? PublisherId { get; set; }
 
-        public virtual Publisher Publisher { get; set; }
+        public Publisher Publisher { get; set; }
 
-        public virtual ICollection<GameTranslate> GameTranslates { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
-        public virtual ICollection<Comment> Comments { get; set; }
+        public ICollection<Genre> Genres { get; set; }
 
-        public virtual ICollection<Genre> Genres { get; set; }
+        public ICollection<PlatformType> PlatformTypes { get; set; }
 
-        public virtual ICollection<PlatformType> PlatformTypes { get; set; }
-
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-
-        public Game()
-        {
-            GameTranslates = new List<GameTranslate>();
-            Comments = new List<Comment>();
-            Genres = new List<Genre>();
-            PlatformTypes = new List<PlatformType>();
-            OrderDetails = new List<OrderDetail>();
-        }
+        public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

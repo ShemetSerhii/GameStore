@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Domain.Entities
@@ -11,29 +10,15 @@ namespace GameStore.Domain.Entities
 
         public bool IsDeleted { get; set; }
 
-        public string CrossProperty { get; set; }
-
         public string Name { get; set; }
 
         public int? ParentId { get; set; }
 
-        [BsonIgnore]
-        public virtual Genre Parent { get; set; }
+        public Genre Parent { get; set; }
 
-        [BsonIgnore]
-        public virtual ICollection<GenreTranslate> GenreTranslates { get; set; }
+        public ICollection<Game> Games { get; set; }
 
-        [BsonIgnore]
-        public virtual ICollection<Game> Games { get; set; }
+        public ICollection<Genre> ChildrenGenres { get; set; }
 
-        [BsonIgnore]
-        public virtual ICollection<Genre> ChildrenGenres { get; set; }
-
-        public Genre()
-        {
-            GenreTranslates = new List<GenreTranslate>();
-            Games = new List<Game>();
-            ChildrenGenres = new List<Genre>();
-        }
     }
 }

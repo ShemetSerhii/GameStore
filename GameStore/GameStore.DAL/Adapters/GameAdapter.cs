@@ -9,9 +9,9 @@ namespace GameStore.DAL.Adapters
 {
     public class GameAdapter : ICrossAdapter<Game>
     {
-        private readonly IGenericRepository<Game> _sql;
+        private readonly IRepository<Game> _sql;
 
-        public GameAdapter(IGenericRepository<Game> gameSql)
+        public GameAdapter(IRepository<Game> gameSql)
         {
             _sql = gameSql;
         }

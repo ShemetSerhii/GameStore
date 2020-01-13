@@ -8,9 +8,9 @@ namespace GameStore.DAL.Adapters.Identity
 {
     public class RoleAdapter : IAdapter<Role>
     {
-        private readonly IGenericRepository<Role> _roleManager;
+        private readonly IRepository<Role> _roleManager;
 
-        public RoleAdapter(IGenericRepository<Role> roleManager)
+        public RoleAdapter(IRepository<Role> roleManager)
         {
             _roleManager = roleManager;
         }

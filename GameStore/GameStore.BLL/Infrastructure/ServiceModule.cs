@@ -1,10 +1,11 @@
 ﻿using GameStore.DAL.Adapters;
 using GameStore.DAL.Adapters.Identity;
-using GameStore.DAL.DBContexts.EF;
+using GameStore.DAL.Context;
 using GameStore.DAL.DBContexts.EF.Repositories;
 using GameStore.DAL.DBContexts.EF.Repositories.Identity;
 using GameStore.DAL.Interfaces;
 using GameStore.DAL.Repositories;
+using GameStore.DAL.UnitOfWork;
 using GameStore.Domain.Entities;
 using GameStore.Domain.Entities.Identity;
 using Ninject.Modules;
@@ -25,16 +26,16 @@ namespace GameStore.BLL.Infrastructure
         {
             Bind<SqlContext>().To<SqlContext>().InRequestScope();
 
-            Bind<IGenericRepository<Game>>().To<SqlGameRepository>();
-            Bind<IGenericRepository<Comment>>().To<SqlCommentRepository>();
-            Bind<IGenericRepository<Genre>>().To<SqlGenreRepository>();
-            Bind<IGenericRepository<Order>>().To<SqlOrderRepository>();
-            Bind<IGenericRepository<OrderDetail>>().To<SqlOrderDetailRepository>();
-            Bind<IGenericRepository<PlatformType>>().To<SqlPlatformTypeRepository>();
-            Bind<IGenericRepository<Publisher>>().To<SqlPublisherRepository>();
+            Bind<IRepository<Game>>().To<GameRepository>();
+            Bind<IRepository<Comment>>().To<SqlCommentRepository>();
+            Bind<IRepository<Genre>>().To<SqlGenreRepository>();
+            Bind<IRepository<Order>>().To<SqlOrderRepository>();
+            Bind<IRepository<OrderDetail>>().To<SqlOrderDetailRepository>();
+            Bind<IRepository<PlatformType>>().To<SqlPlatformTypeRepository>();
+            Bind<IRepository<Publisher>>().To<SqlPublisherRepository>();
 
-            Bind<IGenericRepository<User>>().To<UserRepository>();
-            Bind<IGenericRepository<Role>>().To<RoleRepository>();
+            Bind<IRepository<User>>().To<UserRepository>();
+            Bind<IRepository<Role>>().To<RoleRepository>();
 
             Bind<ICrossAdapter<Game>>().To<GameAdapter>();
             Bind<ICrossAdapter<Comment>>().To<CommentAdapter>();
@@ -48,7 +49,7 @@ namespace GameStore.BLL.Infrastructure
             Bind<IAdapter<User>>().To<UserAdapter>();
             Bind<IAdapter<Role>>().To<RoleAdapter>();
 
-            Bind<IUnitOfWork>().To<EFUnitOfWork>().WithConstructorArgument(_connectionString);
+            Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument(_connectionString);
         }
     }
 }

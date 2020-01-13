@@ -9,9 +9,9 @@ namespace GameStore.DAL.Adapters
 {
     public class PublisherAdapter : ICrossAdapter<Publisher>
     {
-        private readonly IGenericRepository<Publisher> _sql;
+        private readonly IRepository<Publisher> _sql;
 
-        public PublisherAdapter(IGenericRepository<Publisher> publisherSql)
+        public PublisherAdapter(IRepository<Publisher> publisherSql)
         {
             _sql = publisherSql;
         }

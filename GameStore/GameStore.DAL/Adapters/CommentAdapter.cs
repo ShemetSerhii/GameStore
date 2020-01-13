@@ -9,9 +9,9 @@ namespace GameStore.DAL.Adapters
 {
     public class CommentAdapter : ICrossAdapter<Comment>
     {
-        private readonly IGenericRepository<Comment> _repository;
+        private readonly IRepository<Comment> _repository;
 
-        public CommentAdapter(IGenericRepository<Comment> context)
+        public CommentAdapter(IRepository<Comment> context)
         {
             _repository = context;
         }

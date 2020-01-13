@@ -8,9 +8,9 @@ namespace GameStore.DAL.Adapters.Identity
 {
     public class UserAdapter : IAdapter<User>
     {
-        private readonly IGenericRepository<User> _userManager;
+        private readonly IRepository<User> _userManager;
 
-        public UserAdapter(IGenericRepository<User> userManager)
+        public UserAdapter(IRepository<User> userManager)
         {
             _userManager = userManager;
         }

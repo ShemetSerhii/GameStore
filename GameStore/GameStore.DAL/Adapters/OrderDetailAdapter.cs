@@ -8,9 +8,9 @@ namespace GameStore.DAL.Adapters
 {
     public class OrderDetailAdapter : IAdapter<OrderDetail>
     {
-        private readonly IGenericRepository<OrderDetail> _sql;
+        private readonly IRepository<OrderDetail> _sql;
 
-        public OrderDetailAdapter(IGenericRepository<OrderDetail> sqlOrderDetail)
+        public OrderDetailAdapter(IRepository<OrderDetail> sqlOrderDetail)
         {
             _sql = sqlOrderDetail;
         }

@@ -8,9 +8,9 @@ namespace GameStore.DAL.Adapters
 {
     public class GenreAdapter : ICrossAdapter<Genre>
     {
-        private readonly IGenericRepository<Genre> _sql;
+        private readonly IRepository<Genre> _sql;
 
-        public GenreAdapter(IGenericRepository<Genre> sqlGenre)
+        public GenreAdapter(IRepository<Genre> sqlGenre)
         {
             _sql = sqlGenre;
         }

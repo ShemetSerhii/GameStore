@@ -68,9 +68,7 @@
   <ItemGroup>
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Game.cs" />
-    <Compile Include="Entities\GameTranslate.cs" />
     <Compile Include="Entities\Genre.cs" />
-    <Compile Include="Entities\GenreTranslate.cs" />
     <Compile Include="Entities\Identity\Role.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderDetail.cs" />

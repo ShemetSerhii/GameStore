@@ -8,9 +8,9 @@ namespace GameStore.DAL.Adapters
 {
     public class PlatformTypeAdapter : IAdapter<PlatformType>
     {
-        private readonly IGenericRepository<PlatformType> _sql;
+        private readonly IRepository<PlatformType> _sql;
 
-        public PlatformTypeAdapter(IGenericRepository<PlatformType> platformSql)
+        public PlatformTypeAdapter(IRepository<PlatformType> platformSql)
         {
             _sql = platformSql;
         }
