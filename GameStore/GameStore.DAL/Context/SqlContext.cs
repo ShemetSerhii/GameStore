@@ -8,13 +8,9 @@ namespace GameStore.DAL.Context
     {
         public DbSet<Game> Games { get; set; }
 
-        public DbSet<GameTranslate> GameTranslates { get; set; }
-
         public DbSet<Comment> Comments { get; set; }
 
         public DbSet<Genre> Genres { get; set; }
-
-        public DbSet<GenreTranslate> GenreTranslates { get; set; }
 
         public DbSet<PlatformType> PlatformTypes { get; set; }
 

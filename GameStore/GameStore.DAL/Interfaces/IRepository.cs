@@ -8,7 +8,7 @@ namespace GameStore.DAL.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        Task CreateAsync(TEntity item);
+        void Create(TEntity item);
         
         Task<IEnumerable<TEntity>> GetAsync();
 

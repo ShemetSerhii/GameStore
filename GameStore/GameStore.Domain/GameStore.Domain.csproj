@@ -70,6 +70,8 @@
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\Identity\Role.cs" />
+    <Compile Include="Entities\Interfaces\Entity.cs" />
+    <Compile Include="Entities\Interfaces\IEntity.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderDetail.cs" />
     <Compile Include="Entities\PlatformType.cs" />

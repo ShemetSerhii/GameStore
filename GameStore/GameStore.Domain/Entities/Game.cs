@@ -1,14 +1,11 @@
-﻿using System;
+﻿using GameStore.Domain.Entities.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Domain.Entities
 {
-    public class Game
+    public class Game : Entity
     {
-        [Key]
-        public int Id { get; set; }
-
         public bool IsDeleted { get; set; }
 
         public string Key { get; set; }

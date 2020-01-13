@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using GameStore.Domain.Entities.Interfaces;
+using System.Collections.Generic;
 
 namespace GameStore.Domain.Entities
 {
-    public class Comment
+    public class Comment : Entity
     {
-        [Key]
-        public int Id { get; set; }
-
         public bool IsDeleted { get; set; }
 
         public bool IsQuoted { get; set; }

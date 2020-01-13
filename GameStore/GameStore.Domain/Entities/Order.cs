@@ -1,12 +1,11 @@
-﻿using System;
+﻿using GameStore.Domain.Entities.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace GameStore.Domain.Entities
 {
-    public class Order
+    public class Order : Entity
     {
-        public int Id { get; set; }
-
         public bool IsDeleted { get; set; }
 
         public string OrderStatus { get; set; }

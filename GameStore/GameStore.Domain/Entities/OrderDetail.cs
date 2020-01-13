@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GameStore.Domain.Entities.Interfaces;
 
 namespace GameStore.Domain.Entities
 {
-    public class OrderDetail
+    public class OrderDetail : Entity
     {
-        [Key]
-        public int Id { get; set; }
-
         public bool IsDeleted { get; set; }
 
         public string CrossKey { get; set; }

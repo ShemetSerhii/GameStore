@@ -20,22 +20,22 @@ namespace GameStore.DAL.Context
 
             var genres = new List<Genre>
             {
-                new Genre { Name = "Strategy", GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "Стратегия", Language = "ru-RU"}}},
-                new Genre { Name = "RTS", ParentId = 1, GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "РТС", Language = "ru-RU"}}},
-                new Genre { Name = "TBS", ParentId = 1, GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "ТБС", Language = "ru-RU"}} },
-                new Genre { Name = "RPG", GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "РПГ", Language = "ru-RU"}} },
-                new Genre { Name = "Sports", GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "Спорт", Language = "ru-RU"}} },
-                new Genre { Name = "Races", GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "Гонки", Language = "ru-RU"}} },
-                new Genre { Name = "Rally", ParentId = 6, GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "Ралли", Language = "ru-RU"}} },
-                new Genre { Name = "Arcade", ParentId = 6, GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "Аркада", Language = "ru-RU"}} },
-                new Genre { Name = "Formula", ParentId = 6, GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "Формула", Language = "ru-RU"}} },
-                new Genre { Name = "Off-road", ParentId = 6, GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "Бездорожье", Language = "ru-RU"}} },
-                new Genre { Name = "Action", GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "Шутер", Language = "ru-RU"}} },
-                new Genre { Name = "FPS", ParentId = 11, GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "ФПС", Language = "ru-RU"}} },
-                new Genre { Name = "TPS", ParentId = 11, GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "ТПС", Language = "ru-RU"}} },
-                new Genre { Name = "Misc.", ParentId = 11, GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "Микс", Language = "ru-RU"}} },
-                new Genre { Name = "Adventure", GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "Приключения", Language = "ru-RU"}} },
-                new Genre { Name = "Puzzle & Skill", GenreTranslates = new List<GenreTranslate>{new GenreTranslate{Name = "Пазлы и головоломки", Language = "ru-RU"}} }
+                new Genre { Name = "Strategy" },
+                new Genre { Name = "RTS", ParentId = 1 },
+                new Genre { Name = "TBS", ParentId = 1},
+                new Genre { Name = "RPG"  },
+                new Genre { Name = "Sports" },
+                new Genre { Name = "Races" },
+                new Genre { Name = "Rally", ParentId = 6},
+                new Genre { Name = "Arcade", ParentId = 6 },
+                new Genre { Name = "Formula", ParentId = 6},
+                new Genre { Name = "Off-road", ParentId = 6 },
+                new Genre { Name = "Action"  },
+                new Genre { Name = "FPS", ParentId = 11 },
+                new Genre { Name = "TPS", ParentId = 11 },
+                new Genre { Name = "Misc.", ParentId = 11 },
+                new Genre { Name = "Adventure" },
+                new Genre { Name = "Puzzle & Skill" }
             };
 
             var publishers = new List<Publisher>
@@ -58,16 +58,7 @@ namespace GameStore.DAL.Context
                     DatePublication = DateTime.UtcNow.AddDays(-1),
                     Publisher = publishers[i % 2],
                     PlatformTypes = new List<PlatformType>{platformTypes[i % 4]},
-                    Genres = new List<Genre> { genres[i % 16]},
-                    GameTranslates = new List<GameTranslate>
-                    {
-                        new GameTranslate
-                        {
-                            Name = "Игра" + i,
-                            Description = "Инфо" + i,
-                            Language = "ru-RU"
-                        }
-                    }
+                    Genres = new List<Genre> { genres[i % 16]}
                 });
             }
 

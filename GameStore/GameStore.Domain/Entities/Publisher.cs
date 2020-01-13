@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using GameStore.Domain.Entities.Interfaces;
+using System.Collections.Generic;
 
 namespace GameStore.Domain.Entities
 {
-    public class Publisher
+    public class Publisher : Entity
     {
-        [Key]
-        public int Id { get; set; }
-
         public string UserLogin { get; set; }
 
         public bool IsDeleted { get; set; }

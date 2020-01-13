@@ -74,33 +74,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapters\Identity\RoleAdapter.cs" />
-    <Compile Include="Adapters\Identity\UserAdapter.cs" />
-    <Compile Include="Adapters\ShipperAdapter.cs" />
-    <Compile Include="Repositories\Identity\RoleRepository.cs" />
-    <Compile Include="Repositories\Identity\UserRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
-    <Compile Include="Repositories\SqlCommentRepository.cs" />
-    <Compile Include="Repositories\GameRepository.cs" />
-    <Compile Include="Repositories\SqlGenreRepository.cs" />
-    <Compile Include="Repositories\SqlOrderDetailRepository.cs" />
-    <Compile Include="Repositories\SqlOrderRepository.cs" />
-    <Compile Include="Repositories\SqlPlatformTypeRepository.cs" />
-    <Compile Include="Repositories\SqlPublisherRepository.cs" />
     <Compile Include="Context\SqlContext.cs" />
     <Compile Include="Context\StoreDbInitializer.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Interfaces\IIdentityAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Adapters\CommentAdapter.cs" />
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
-    <Compile Include="Adapters\GameAdapter.cs" />
-    <Compile Include="Adapters\GenreAdapter.cs" />
-    <Compile Include="Adapters\OrderDetailAdapter.cs" />
-    <Compile Include="Adapters\OrderAdapter.cs" />
-    <Compile Include="Adapters\PlatformTypeAdapter.cs" />
-    <Compile Include="Adapters\PublisherAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
