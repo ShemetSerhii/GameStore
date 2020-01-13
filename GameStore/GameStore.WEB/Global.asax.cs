@@ -1,10 +1,6 @@
-﻿using GameStore.BLL.Infrastructure;
-using GameStore.WEB.App_Start;
+﻿using GameStore.WEB.App_Start;
 using GameStore.WEB.AutoMapper;
-using GameStore.WEB.Util;
-using Ninject;
-using Ninject.Modules;
-using Ninject.Web.Mvc;
+using GameStore.WEB.Infrastructure.DependencyInjection;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
@@ -25,10 +21,8 @@ namespace GameStore.WEB
             AutoMapperConfiguration configuration = new AutoMapperConfiguration();
             configuration.Config();
 
-            NinjectModule gameModule = new GameModule();
-            NinjectModule serviceModule = new ServiceModule("Connection");
-            var kernel = new StandardKernel(gameModule, serviceModule);
-            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+            DependencyConfiguration.Configure();
+
         }
 
         protected void Application_BeginRequest()

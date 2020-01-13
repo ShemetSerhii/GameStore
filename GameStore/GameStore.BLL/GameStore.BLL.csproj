@@ -103,7 +103,6 @@
     <Compile Include="FilterPipeline\Concrete\SortFilter.cs" />
     <Compile Include="FilterPipeline\Concrete\SortingResolver.cs" />
     <Compile Include="FilterPipeline\Model\FilterModelDTO.cs" />
-    <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Interfaces\ICommentService.cs" />
     <Compile Include="Interfaces\Identity\IIdentityService.cs" />
     <Compile Include="Interfaces\Identity\IRoleService.cs" />

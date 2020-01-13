@@ -5,9 +5,8 @@ using GameStore.DAL.UnitOfWork;
 using GameStore.Domain.Entities;
 using GameStore.Domain.Entities.Identity;
 using Ninject.Modules;
-using Ninject.Web.Common;
 
-namespace GameStore.BLL.Infrastructure
+namespace GameStore.Infrastructure.Modules
 {
     public class ServiceModule : NinjectModule
     {
@@ -20,7 +19,7 @@ namespace GameStore.BLL.Infrastructure
 
         public override void Load()
         {
-            Bind<SqlContext>().To<SqlContext>().InRequestScope();
+            Bind<SqlContext>().To<SqlContext>();
 
             Bind<IRepository<Game>>().To<Repository<Game>>();
             Bind<IRepository<Comment>>().To<Repository<Comment>>();

@@ -319,6 +319,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\PagingHelper.cs" />
+    <Compile Include="Infrastructure\DependencyInjection\DependencyConfiguration.cs" />
+    <Compile Include="Infrastructure\DependencyInjection\WebModule.cs" />
     <Compile Include="Logging\GameStoreLogger.cs" />
     <Compile Include="Logging\LoggerHandleErrorAttribute.cs" />
     <Compile Include="Logging\LogHttpRequest.cs" />
@@ -441,7 +443,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PublisherResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Util\GameModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">
@@ -512,6 +513,10 @@
     <ProjectReference Include="..\GameStore.Domain\GameStore.Domain.csproj">
       <Project>{4E3B11D1-1964-447E-B287-8251CD4F1419}</Project>
       <Name>GameStore.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameStote.Infrastructure\GameStore.Infrastructure.csproj">
+      <Project>{E584EDC8-DE01-456F-8F13-AF1C50CD2C3C}</Project>
+      <Name>GameStore.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

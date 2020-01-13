@@ -68,7 +68,7 @@ namespace GameStore.WEB.Controllers
         {
             if (_gameService.GetByKey(gameView.Key) != null)
             {
-                ModelState.AddModelError("Key", Resources.Game.GameResource.KeyExistsError);
+                ModelState.AddModelError("Key", GameResource.KeyExistsError);
             }
 
             GeneralValidation(gameView, publisherSelect, genresSelect, platformTypesSelect);
