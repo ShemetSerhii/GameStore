@@ -1,6 +1,4 @@
-﻿using GameStore.DAL.DBContexts.MongoDB.Logging.Interfaces;
-using GameStore.DAL.DBContexts.MongoDB.Logging.LogEntity;
-using GameStore.DAL.Interfaces;
+﻿using GameStore.DAL.Interfaces;
 using GameStore.Domain.Entities;
 using MongoDB.Bson;
 using System;
@@ -12,19 +10,15 @@ namespace GameStore.DAL.Adapters
     public class CommentAdapter : ICrossAdapter<Comment>
     {
         private readonly IGenericRepository<Comment> _repository;
-        private readonly ILogging _logging;
 
-        public CommentAdapter(IGenericRepository<Comment> context, ILogging logging)
+        public CommentAdapter(IGenericRepository<Comment> context)
         {
             _repository = context;
-            _logging = logging;
         }
 
         public void Create(Comment comment)
         {
             _repository.Create(comment);
-
-            _logging.Log(comment.GetType(), _logging.CudDictionary[CUDEnum.Create], comment.ToBsonDocument());
         }
 
         public IEnumerable<Comment> GetCross(int id, string crossProperty)
@@ -64,8 +58,6 @@ namespace GameStore.DAL.Adapters
         public void Remove(Comment item)
         {
             _repository.Remove(item);
-
-            _logging.Log(item.GetType(), _logging.CudDictionary[CUDEnum.Delete], item.ToBsonDocument());
         }
     }
 }

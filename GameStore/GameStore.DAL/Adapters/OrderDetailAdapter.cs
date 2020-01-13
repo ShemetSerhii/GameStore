@@ -1,8 +1,5 @@
-﻿using GameStore.DAL.DBContexts.MongoDB.Logging.Interfaces;
-using GameStore.DAL.DBContexts.MongoDB.Logging.LogEntity;
-using GameStore.DAL.Interfaces;
+﻿using GameStore.DAL.Interfaces;
 using GameStore.Domain.Entities;
-using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +9,15 @@ namespace GameStore.DAL.Adapters
     public class OrderDetailAdapter : IAdapter<OrderDetail>
     {
         private readonly IGenericRepository<OrderDetail> _sql;
-        private readonly ILogging _logging;
 
-        public OrderDetailAdapter(IGenericRepository<OrderDetail> sqlOrderDetail, ILogging logging)
+        public OrderDetailAdapter(IGenericRepository<OrderDetail> sqlOrderDetail)
         {
             _sql = sqlOrderDetail;
-            _logging = logging;
         }
 
         public void Create(OrderDetail item)
         {
             _sql.Create(item);
-
-            _logging.Log(item.GetType(), _logging.CudDictionary[CUDEnum.Create], item.ToBsonDocument());
         }
 
         public IEnumerable<OrderDetail> Get()

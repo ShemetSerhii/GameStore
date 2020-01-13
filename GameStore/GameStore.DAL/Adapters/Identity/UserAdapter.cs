@@ -1,5 +1,4 @@
-﻿using GameStore.DAL.DBContexts.MongoDB.Intefaces;
-using GameStore.DAL.Interfaces;
+﻿using GameStore.DAL.Interfaces;
 using GameStore.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
@@ -10,21 +9,15 @@ namespace GameStore.DAL.Adapters.Identity
     public class UserAdapter : IAdapter<User>
     {
         private readonly IGenericRepository<User> _userManager;
-        private readonly IMongoRepository<User> _userMongo;
 
-        public UserAdapter(IGenericRepository<User> userManager, IMongoRepository<User> userMongo)
+        public UserAdapter(IGenericRepository<User> userManager)
         {
             _userManager = userManager;
-            _userMongo = userMongo;
         }
 
         public IEnumerable<User> Get()
         {
             var users = _userManager.Get().ToList();
-
-            var mongoUsers = _userMongo.Get(x => !users.Select(us => us.Login).Contains(x.Login));
-
-            users.AddRange(mongoUsers);
 
             return users;
         }
@@ -33,11 +26,6 @@ namespace GameStore.DAL.Adapters.Identity
             Func<IEnumerable<User>, IOrderedEnumerable<User>> sorting = null)
         {
             var users = _userManager.Get(predicate, sorting).ToList();
-
-            var userMongo = _userMongo.Get(predicate)
-                .Where(x => !users.Select(us => us.Login).Contains(x.Login));
-
-            users.AddRange(userMongo);
 
             return users;
         }

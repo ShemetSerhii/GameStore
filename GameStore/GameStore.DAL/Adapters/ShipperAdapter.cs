@@ -1,5 +1,4 @@
-﻿using GameStore.DAL.DBContexts.MongoDB.Intefaces;
-using GameStore.DAL.Interfaces;
+﻿using GameStore.DAL.Interfaces;
 using GameStore.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,26 +8,20 @@ namespace GameStore.DAL.Adapters
 {
     public class ShipperAdapter : IBaseAdapter<Shipper>
     {
-        private readonly IMongoRepository<Shipper> _mongo;
 
-        public ShipperAdapter(IMongoRepository<Shipper> mongoRepository)
+        public ShipperAdapter()
         {
-            _mongo = mongoRepository;
         }
 
         public IEnumerable<Shipper> Get()
         {
-            var shippers = _mongo.Get();
-
-            return shippers;
+            return null;
         }
 
         public IEnumerable<Shipper> Get(Func<Shipper, bool> predicate,
             Func<IEnumerable<Shipper>, IOrderedEnumerable<Shipper>> sorting = null)
         {
-            var shippers = _mongo.Get(predicate, sorting);
-
-            return shippers;
+            return null;
         }
     }
 }

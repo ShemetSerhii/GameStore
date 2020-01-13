@@ -3,11 +3,6 @@ using GameStore.DAL.Adapters.Identity;
 using GameStore.DAL.DBContexts.EF;
 using GameStore.DAL.DBContexts.EF.Repositories;
 using GameStore.DAL.DBContexts.EF.Repositories.Identity;
-using GameStore.DAL.DBContexts.MongoDB;
-using GameStore.DAL.DBContexts.MongoDB.Intefaces;
-using GameStore.DAL.DBContexts.MongoDB.Logging;
-using GameStore.DAL.DBContexts.MongoDB.Logging.Interfaces;
-using GameStore.DAL.DBContexts.MongoDB.Repositories;
 using GameStore.DAL.Interfaces;
 using GameStore.DAL.Repositories;
 using GameStore.Domain.Entities;
@@ -29,7 +24,6 @@ namespace GameStore.BLL.Infrastructure
         public override void Load()
         {
             Bind<SqlContext>().To<SqlContext>().InRequestScope();
-            Bind<IMongoContext>().To<MongoDbContext>();
 
             Bind<IGenericRepository<Game>>().To<SqlGameRepository>();
             Bind<IGenericRepository<Comment>>().To<SqlCommentRepository>();
@@ -41,14 +35,6 @@ namespace GameStore.BLL.Infrastructure
 
             Bind<IGenericRepository<User>>().To<UserRepository>();
             Bind<IGenericRepository<Role>>().To<RoleRepository>();
-
-            Bind<IAdvancedMongoRepository<Game>>().To<MongoProductRepository>();
-            Bind<IAdvancedMongoRepository<Genre>>().To<MongoGenreRepository>();
-            Bind<IAdvancedMongoRepository<Publisher>>().To<MongoSupplierRepository>();
-            Bind<IMongoRepository<Shipper>>().To<MongoShipperRepository>();
-            Bind<IMongoRepository<OrderDetail>>().To<MongoOrderDetailRepository>();          
-            Bind<IMongoRepository<Order>>().To<MongoOrderRepository>();
-            Bind<IMongoRepository<User>>().To<MongoUserRepository>();
 
             Bind<ICrossAdapter<Game>>().To<GameAdapter>();
             Bind<ICrossAdapter<Comment>>().To<CommentAdapter>();
@@ -62,7 +48,6 @@ namespace GameStore.BLL.Infrastructure
             Bind<IAdapter<User>>().To<UserAdapter>();
             Bind<IAdapter<Role>>().To<RoleAdapter>();
 
-            Bind<ILogging>().To<EntityLogging>();
             Bind<IUnitOfWork>().To<EFUnitOfWork>().WithConstructorArgument(_connectionString);
         }
     }

@@ -1,7 +1,4 @@
-﻿using GameStore.DAL.DBContexts.MongoDB.Intefaces;
-using GameStore.DAL.DBContexts.MongoDB.Logging.Interfaces;
-using GameStore.DAL.DBContexts.MongoDB.Logging.LogEntity;
-using GameStore.DAL.Interfaces;
+﻿using GameStore.DAL.Interfaces;
 using GameStore.Domain.Entities;
 using MongoDB.Bson;
 using System;
@@ -13,21 +10,15 @@ namespace GameStore.DAL.Adapters
     public class OrderAdapter : IAdapter<Order>
     {
         private readonly IGenericRepository<Order> _sql;
-        private readonly IMongoRepository<Order> _mongo;
-        private readonly ILogging _logging;
 
-        public OrderAdapter(IGenericRepository<Order> orderSql, IMongoRepository<Order> orderMongo, ILogging logging)
+        public OrderAdapter(IGenericRepository<Order> orderSql)
         {
             _sql = orderSql;
-            _mongo = orderMongo;
-            _logging = logging;
         }
 
         public void Create(Order item)
         {
             _sql.Create(item);
-
-            _logging.Log(item.GetType(), _logging.CudDictionary[CUDEnum.Create], item.ToBsonDocument());
         }
 
         public IEnumerable<Order> Get()
@@ -42,8 +33,6 @@ namespace GameStore.DAL.Adapters
         {
             var query = _sql.Get(predicate).ToList();
 
-            query.AddRange(_mongo.Get(predicate));
-
             return query.OrderBy(x => x.OrderDate).ToList();
         }
 
@@ -55,8 +44,6 @@ namespace GameStore.DAL.Adapters
         public void Update(Order item)
         {
             _sql.Update(item);
-
-            _logging.Log(item.GetType(), _logging.CudDictionary[CUDEnum.Update], item.ToBsonDocument());
         }
     }
 }
