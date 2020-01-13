@@ -2,31 +2,27 @@
 using GameStore.DAL.Interfaces;
 using GameStore.Domain.Entities;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace GameStore.BLL.Services
 {
     public class ShipperService : IShipperService
     {
-        private IUnitOfWork unitOfWork { get; set; }
+        private readonly IUnitOfWork _unitOfWork;
 
         public ShipperService(IUnitOfWork uow)
         {
-            unitOfWork = uow;
+            _unitOfWork = uow;
         }
 
-        public IEnumerable<Shipper> GetAll()
+        public Task<IEnumerable<Shipper>> GetAll()
         {
-            var shippers = unitOfWork.Shippers.Get();
-
-            return shippers;
+            return _unitOfWork.ShipperRepository.GetAsync();
         }
 
-        public Shipper Get(int id)
+        public Task<Shipper> Get(int id)
         {
-            var shipper = unitOfWork.Shippers.Get(x => x.Id == id).SingleOrDefault();
-
-            return shipper;
+            return _unitOfWork.ShipperRepository.GetAsync(id);
         }
     }
 }

@@ -1,16 +1,19 @@
 ﻿using GameStore.Domain.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GameStore.BLL.Interfaces
 {
     public interface IPublisherService
     {
-        IEnumerable<Publisher> GetAll();
-        Publisher GetByName(string companyName);
-        Publisher GetByInterimProperty(int id, string interimProperty);
-        void Create(Publisher publisher);
-        void Update(Publisher publisher);
-        void Delete(string companyName);
-        bool PublisherAccess(string companyName, string login);
+        Task<IEnumerable<Publisher>> GetAll();
+
+        Task<Publisher> Get(int id);
+
+        Task Create(Publisher publisher);
+
+        Task Update(Publisher publisher);
+
+        Task Delete(int id);
     }
 }

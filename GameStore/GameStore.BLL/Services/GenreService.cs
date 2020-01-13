@@ -2,63 +2,52 @@
 using GameStore.DAL.Interfaces;
 using GameStore.Domain.Entities;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace GameStore.BLL.Services
 {
     public class GenreService : IGenreService
     {
-        private IUnitOfWork unitOfWork { get; set; }
+        private readonly IUnitOfWork _unitOfWork;
 
         public GenreService(IUnitOfWork uow)
         {
-            unitOfWork = uow;
+            _unitOfWork = uow;
         }
 
-        public IEnumerable<Genre> GetAll()
+        public Task<IEnumerable<Genre>> GetAll()
         {
-            var games = unitOfWork.Genres.Get();
-
-            return games;
+            return _unitOfWork.GenreRepository.GetAsync();
         }
 
-        public Genre Get(string name)
+        public Task<Genre> Get(int id)
         {
-            var genre = unitOfWork.Genres.Get(x => x.Name == name).SingleOrDefault();
-
-            return genre;
+            return _unitOfWork.GenreRepository.GetAsync(id);
         }
 
-        public Genre GetGenreByByInterimProperty(int id, string crossProperty)
+        public Task Create(Genre genre)
         {
-            var genre = unitOfWork.Genres.GetCross(id, crossProperty).SingleOrDefault();
+            _unitOfWork.GenreRepository.Create(genre);
 
-            return genre;
+            return _unitOfWork.SaveAsync();
         }
 
-        public void Create(Genre genre)
+        public Task Update(Genre genre)
         {
-            if (genre != null)
-            {
-                unitOfWork.Genres.Create(genre);
-            }
+            _unitOfWork.GenreRepository.Update(genre);
+
+            return _unitOfWork.SaveAsync();
         }
 
-        public void Update(Genre genre)
+        public async Task Delete(int id)
         {
-            if (genre != null)
-            {
-                unitOfWork.Genres.Update(genre);
-            }
-        }
-
-        public void Delete(string name)
-        {
-            var genre = Get(name);
+            var genre = await _unitOfWork.GenreRepository.GetAsync(id);
 
             if (genre != null)
             {
-                unitOfWork.Genres.Remove(genre);
+                _unitOfWork.GenreRepository.Delete(genre);
+
+                await _unitOfWork.SaveAsync();
             }
         }
     }

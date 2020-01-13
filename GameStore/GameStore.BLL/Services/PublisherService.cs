@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Interfaces;
 using GameStore.Domain.Entities;
@@ -8,68 +8,44 @@ namespace GameStore.BLL.Services
 {
     public class PublisherService : IPublisherService
     {
-        private IUnitOfWork unitOfWork { get; set; }
+        private readonly IUnitOfWork _unitOfWork;
 
         public PublisherService(IUnitOfWork uow)
         {
-            unitOfWork = uow;
+            _unitOfWork = uow;
         }
 
-        public IEnumerable<Publisher> GetAll()
+        public Task<IEnumerable<Publisher>> GetAll()
         {
-            var publishers = unitOfWork.Publishers.Get();
-
-            return publishers;
+            return _unitOfWork.PublisherRepository.GetAsync();
         }
 
-        public Publisher GetByName(string companyName)
+        public Task<Publisher> Get(int id)
         {
-            var publisher = unitOfWork.Publishers.Get(
-                p => p.CompanyName == companyName).SingleOrDefault();
-
-            return publisher;
+            return _unitOfWork.PublisherRepository.GetAsync(id);
         }
 
-        public Publisher GetByInterimProperty(int id, string crossProperty)
+        public Task Create(Publisher publisher)
         {
-            var publisher = unitOfWork.Publishers.GetCross(id, crossProperty).SingleOrDefault();
+            _unitOfWork.PublisherRepository.Create(publisher);
 
-            return publisher;
+            return _unitOfWork.SaveAsync();
         }
 
-        public void Create(Publisher publisher)
+        public Task Update(Publisher publisher)
         {
-            if (publisher != null)
-            {
-                unitOfWork.Publishers.Create(publisher);
-            }
+            _unitOfWork.PublisherRepository.Update(publisher);
+
+            return _unitOfWork.SaveAsync();
         }
 
-        public void Update(Publisher publisher)
+        public async Task Delete(int id)
         {
-            if (publisher != null)
-            {
-                unitOfWork.Publishers.Update(publisher);
-            }
-        }
+            var publisher = await _unitOfWork.PublisherRepository.GetAsync(id);
 
-        public void Delete(string companyName)
-        {
-            var publisher = GetByName(companyName);
+            _unitOfWork.PublisherRepository.Delete(publisher);
 
-            unitOfWork.Publishers.Remove(publisher);
-        }
-
-        public bool PublisherAccess(string companyName, string login)
-        {
-            var publisher = GetByName(companyName);
-
-            if (publisher.UserLogin == login)
-            {
-                return true;
-            }
-
-            return false;
+            await _unitOfWork.SaveAsync();
         }
     }
 }

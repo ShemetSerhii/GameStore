@@ -2,49 +2,43 @@
 using GameStore.DAL.Interfaces;
 using GameStore.Domain.Entities;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace GameStore.BLL.Services
 {
     public class CommentService : ICommentService
     {
-        private IUnitOfWork unitOfWork { get; set; }
+        private readonly IUnitOfWork _unitOfWork; 
 
         public CommentService(IUnitOfWork uow)
         {
-            unitOfWork = uow;
+            _unitOfWork = uow;
         }
 
-        public void AddComment(Comment comment)
-        {  
-            unitOfWork.Comments.Create(comment);
-        }
-
-        public IEnumerable<Comment> GetAllCommentsByGame(string gameKey)
+        public Task AddComment(Comment comment)
         {
-            var game = unitOfWork.Games.Get(g => g.Key == gameKey).SingleOrDefault();
+            _unitOfWork.CommentRepository.Create(comment);
 
-            var comments = unitOfWork.Comments.GetCross(game.Id, game.CrossProperty);
-
-            return comments;
+            return _unitOfWork.SaveAsync();
         }
 
-        public Comment GetComment(int id)
+        public Task<IEnumerable<Comment>> GetGamesComments(int gameId)
         {
-            var comment = unitOfWork.Comments.Get(
-                p => p.Id == id).SingleOrDefault();
-
-            return comment;
+            return _unitOfWork.CommentRepository.GetAsync(comment => comment.GameId == gameId);
         }
 
-        public void Delete(int id)
+        public Task<Comment> GetComment(int id)
         {
-            var comment = unitOfWork.Comments.Get(
-                x => x.Id == id).SingleOrDefault();
+            return _unitOfWork.CommentRepository.GetAsync(id);
+        }
+
+        public async Task Delete(int id)
+        {
+            var comment = await _unitOfWork.CommentRepository.GetAsync(id);
 
             if (comment != null)
             {
-                unitOfWork.Comments.Remove(comment);
+                _unitOfWork.CommentRepository.Delete(comment);
             }
         }
     }

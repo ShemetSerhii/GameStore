@@ -3,45 +3,38 @@ using GameStore.DAL.Interfaces;
 using GameStore.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using GameStore.Domain.Entities;
 
 namespace GameStore.BLL.Services.IdentityService
 {
     public class IdentityService : IIdentityService
     {
-        private IUnitOfWork unitOfWork { get; }
+        private readonly IUnitOfWork _unitOfWork;
 
         public IdentityService(IUnitOfWork uow)
         {
-            unitOfWork = uow;
+            _unitOfWork = uow;
         }
 
-        public IEnumerable<User> GetAll()
+        public Task<IEnumerable<User>> GetAll()
         {
-            var users = unitOfWork.Users.Get();
+            var users = _unitOfWork.UserRepository.GetAsync();
 
             return users;
         }
 
         public User GetUser(string login)
         {
-            var user = unitOfWork.Users.Get(x => x.Login == login).SingleOrDefault();
-
-            return user;
+            return null;
         }
 
         public User Login(string login, string password)
         {
-            var user = unitOfWork.Users.Get(x => x.Login == login).SingleOrDefault();
+            var user = _unitOfWork.Users.Get(x => x.Login == login).SingleOrDefault();
 
             if (user != null)
             {
-                if (user.Password == 0)
-                {
-                    return UserMigrationFromMongo(user, password);
-                }
-
                 if (password.GetHashCode() == user.Password)
                 {
                     return user;
@@ -53,49 +46,13 @@ namespace GameStore.BLL.Services.IdentityService
 
         public void Register(User user)
         {
-            UnBan(user);
-
-            var userRole = unitOfWork.Roles.Get(rol => rol.Name == "User").SingleOrDefault();
-            user.Roles.Add(userRole);
-
-            unitOfWork.Users.Create(user);
         }
 
-        public void RegisterPublisher(User user, string companyName)
+        public Task Update(User user)
         {
-            var publisher = new Publisher
-            {
-                CompanyName = companyName,
-                UserLogin = user.Login
-            };
+            _unitOfWork.UserRepository.Update(user);
 
-            var userRole = unitOfWork.Roles.Get(rol => rol.Name == "Publisher").SingleOrDefault();
-            user.Roles.Add(userRole);
-
-            unitOfWork.Publishers.Create(publisher);
-        }
-
-        public void Update(User user)
-        {
-            UnBan(user);
-
-            unitOfWork.Users.Update(user);
-        }
-
-        public void Ban(User user)
-        {
-            user.IsBanned = true;
-
-            unitOfWork.Users.Remove(user);
-        }
-
-        private void UnBan(User user)
-        {
-            if (user.BanExpires != null && user.BanExpires < DateTime.UtcNow)
-            {
-                user.IsBanned = false;
-                user.BanExpires = null;
-            }
+            return _unitOfWork.SaveAsync();
         }
 
         public bool IsBanned(string login)
@@ -108,27 +65,6 @@ namespace GameStore.BLL.Services.IdentityService
             }
 
             return user.IsBanned;
-        }
-
-        public bool CompanyNameValidation(string companyName)
-        {
-            var company = unitOfWork.Publishers.Get(x => x.CompanyName == companyName).SingleOrDefault();
-
-            if (company == null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private User UserMigrationFromMongo(User user, string password)
-        {
-            user.Password = password.GetHashCode();
-
-            Register(user);
-
-            return user;
         }
     }
 }
