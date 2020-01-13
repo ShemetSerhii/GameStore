@@ -1,0 +1,27 @@
+﻿@model IEnumerable<GameStore.WEB.Models.GenreViewModel>
+
+<p>
+    @Html.ActionLink(@GameStore.WEB.Resources.Genre.GenreResource.CreateNew, "Create")
+   
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NameTranslate)
+        </td>
+        <td class="btn-group">
+            @Html.ActionLink(@GameStore.WEB.Resources.Genre.GenreResource.Edit, "Edit", new { name = item.Name }, new { @class = "btn btn-success", @role = "button" }) 
+            @Html.ActionLink(@GameStore.WEB.Resources.Genre.GenreResource.Delete, "Delete", new { name = item.Name }, new { @class = "btn btn-success", @role = "button" })
+        </td>
+    </tr>
+}
+
+</table>

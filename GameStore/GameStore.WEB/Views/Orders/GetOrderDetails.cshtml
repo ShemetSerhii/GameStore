@@ -1,0 +1,77 @@
+﻿@model GameStore.WEB.Models.OrderViewModel
+
+<div class="container">
+    <h2 class="text-center">@GameStore.WEB.Resources.Orders.OrdersResource.OrderDetails</h2>
+<div class="list-group">
+    <div>
+        <span class="font-weight-bold">@GameStore.WEB.Resources.Orders.OrdersResource.Customer:</span>
+        @Html.DisplayFor(model => model.CustomerId)
+    </div>
+    <div>
+        <span class="font-weight-bold">@Html.DisplayNameFor(model => model.OrderDate):</span>
+        @Html.DisplayFor(model => model.OrderDate)
+    </div>
+    <div>
+        <span class="font-weight-bold">@Html.DisplayNameFor(model => model.OrderStatus):</span>
+        @Html.DisplayFor(model => model.OrderStatus)
+    </div>
+    <div>
+        <span class="font-weight-bold">@Html.DisplayNameFor(model => model.Shipper):</span>
+        @Html.DisplayFor(model => model.Shipper)
+    </div>
+    <div>
+        <span class="font-weight-bold">@Html.DisplayNameFor(model => model.ShippedDate):</span>
+        @Html.DisplayFor(model => model.ShippedDate)
+    </div>
+</div>
+@if (Model.OrderDetails.Any())
+{
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>
+                @GameStore.WEB.Resources.Orders.OrdersResource.ProductName
+            </th>
+            <th>
+                @GameStore.WEB.Resources.Orders.OrdersResource.UnitPrice
+            </th>
+            <th>
+                @GameStore.WEB.Resources.Orders.OrdersResource.Quantity
+            </th>
+            <th>
+                @GameStore.WEB.Resources.Orders.OrdersResource.Discount
+            </th>
+            <th>
+                @GameStore.WEB.Resources.Orders.OrdersResource.TotalPrice
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.OrderDetails)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Game.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Discount)
+                </td>
+                <td>
+                    @{
+                        decimal total = (item.Price * item.Quantity) - (item.Price * item.Quantity * (decimal)item.Discount);
+                    }
+                    @total
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+}
+</div>

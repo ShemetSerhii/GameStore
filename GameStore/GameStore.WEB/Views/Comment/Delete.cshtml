@@ -1,0 +1,21 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>@GameStore.WEB.Resources.Comment.CommentResource.DeleteThisComment</h4>
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+
+    </div>
+    <div class="modal-body d-flex justify-content-around">
+        @using (Html.BeginForm("Delete", "Comment", FormMethod.Post))
+        {
+            @Html.Hidden("commentId")
+            @Html.Hidden("gameId")
+            <input type="submit" value="@GameStore.WEB.Resources.Comment.CommentResource.Yes" class="btn btn-primary"/>
+        }
+            <button class="btn btn-primary" Id="No">@GameStore.WEB.Resources.Comment.CommentResource.No</button>
+    </div>
+</div>

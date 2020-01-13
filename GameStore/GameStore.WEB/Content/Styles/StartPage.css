@@ -1,0 +1,143 @@
+﻿main {
+    margin-right: 8%;
+    width: 65%;
+}
+
+main p {
+    font-size: 0.9em;
+    margin-bottom: 0.5em;
+}
+
+main h3 {
+    font-family: Montserrat;
+    font-weight: bold;
+}
+
+main a:hover { color: #FFFFFF; }
+
+main p, .ul-list { font-family: Open Sans; }
+
+.content-top { display: flex; }
+
+.content-top h3 { font-weight: bold; }
+
+.ul-list {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9em;
+    margin-bottom: 5%;
+}
+
+.ul-list div { display: flex; }
+
+.bullet::before {
+    color: #FF7E2A;
+    content: "\2022";
+    display: inline-block;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: -12px;
+    width: 1em;
+}
+
+.div-link-button { text-align: right; }
+
+.link-button {
+    background: #FF7E2A;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 17px;
+    padding: 12px 30px;
+    text-decoration: none;
+}
+
+.link-button:hover { color: #FFFFFF; }
+
+.starPage-aside {
+    font-family: Montserrat;
+    font-weight: bold;
+    position: relative;
+    width: 35%;
+}
+
+.aside-img { position: absolute; }
+
+#startPage-aside-img { width: 100%; }
+
+.aside-background {
+    background: black;
+    height: 100%;
+    opacity: 0.4;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+.aside-text {
+    color: #FFFFFF;
+    font-size: 1.1em;
+    left: 10%;
+    position: absolute;
+    right: 0;
+    top: 75%;
+    width: 152px;
+    z-index: 3;
+}
+
+article .link-button {
+    display: inline-block;
+    margin-top: 7%;
+}
+
+article {
+    background: #F7F7F7;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2.5%;
+    width: 31.5%;
+}
+
+article h3 { font-weight: bold; }
+
+article label { font-family: Open Sans; }
+
+article div { font-family: Open Sans; }
+
+article:last-child { display: inline-block; }
+
+.articles {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5%;
+}
+
+.articles input, textarea {
+    background: #F7F7F7;
+    border: 1px solid #7F7F7F;
+    width: 100%;
+}
+
+textarea {
+    height: 7em;
+    resize: none;
+}
+
+.article-link {
+    color: #FF7E2A;
+    font-family: Open Sans;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.article-link:hover {
+    color: #FF7E2A;
+    text-decoration: underline;
+}
+
+.time-ago {
+    color: #9B9B9B;
+    font-size: 12px;
+}

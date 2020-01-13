@@ -1,0 +1,220 @@
+﻿@using GameStore.WEB.Models
+@model IEnumerable<GameStore.WEB.Models.CommentViewModel>
+
+<p class="display-4 text-center">@ViewBag.GameName</p>
+@Html.Hidden("ActionName", Url.Action("NewComment", "Comment"))
+@Html.Hidden("ActionDelete", @Url.Action("Delete", "Comment"))
+<div class="text-center" id="d0">
+    @if (Context.User.IsInRole("User") || Context.User.IsInRole("Moderator") || Context.User.IsInRole("Publisher") || Context.User.IsInRole("Guest"))
+    {
+        if (ViewBag.Id != "0")
+        {
+            <button class="btn btn-primary addForm" id="0">@GameStore.WEB.Resources.Comment.CommentResource.AddComment</button>
+        }
+        else
+        {
+            <button class="btn btn-primary addForm" id="0" style="visibility: hidden">@GameStore.WEB.Resources.Comment.CommentResource.AddComment</button>
+        }
+    }   
+</div>
+<div>
+    @SwitchForm(0, "1")
+</div>
+
+
+@{
+    int layer = 0;
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+
+<div class="list-group">
+    @BuildCommentList(Model, layer)
+</div>
+
+
+@helper BuildCommentList(IEnumerable<CommentViewModel> comments, int layer, int? parentId = null)
+{
+    var items = comments.Where(d => d.ParentId == parentId).OrderBy(i => i.Order);
+    if (items.Any())
+    {
+        ++layer;
+        foreach (var item in items)
+        {
+            @Html.Hidden("GameId", item.GameId)
+            @Html.Hidden("CrossProperty", item.CrossProperty)
+            int margin = (layer - 1) * 30;
+            string idName = "d" + @item.Id;
+            string idBody = "b" + @item.Id;
+            <div class="border" id="@idName" style="margin: 5px 5px 5px @margin.ToString()px">
+                @if (item.IsDeleted == false)
+                {
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p><span class="font-weight-bold">@Html.DisplayNameFor(model => model.Name): </span>@Html.DisplayFor(model => item.Name)</p>
+                        </div>
+                        <div>
+                            @if (Context.User.IsInRole("Admisitrator") || Context.User.IsInRole("Moderator"))
+                            {
+                                 if (ViewBag.Id != item.Id.ToString())
+                                 {
+                                     @Html.ActionLink(GameStore.WEB.Resources.Comment.CommentResource.Delete, "Delete", new {id = item.Id}, new {@class = "btn btn-primary delete"})
+                                 }
+                                 else
+                                 {
+                                     @Html.ActionLink(GameStore.WEB.Resources.Comment.CommentResource.Delete, "Delete", new {id = item.Id}, new {@style = "visibility: hidden", @class = "btn btn-primary delete"})
+                                 }
+                            }
+                           
+                        </div>
+                    </div>
+                    <p><span class="font-weight-bold">@Html.DisplayNameFor(model => model.Body): </span></p>
+
+                    if (item.IsQuoted == true)
+                    {
+                        <blockquote style="border-left: 2px solid gray; margin-left: 15px; background: lightgray; display: inline-block">
+                            @if (item.ParentComment.IsDeleted == true)
+                            {
+                            <span>@GameStore.WEB.Resources.Comment.CommentResource.ThisCommentDeleted</span>
+                            }
+                            else
+                            {
+                                @item.ParentComment.Body
+                            }
+                        </blockquote>
+                    }
+
+                    <p id="@idBody">@Html.DisplayFor(model => item.Body)</p>
+
+                    <div class="d-flex flex-row-reverse justify-content-between">
+                        <div>
+                            @if (Context.User.IsInRole("Administrator") || Context.User.IsInRole("Moderator"))
+                            {
+                                using (Html.BeginForm("Ban", "Comment", FormMethod.Post))
+                                {
+                                    if (ViewBag.Id != item.Id.ToString())
+                                    {
+                                        @Html.Hidden("user", item.Name)
+                                        <input type="submit" value="@GameStore.WEB.Resources.Comment.CommentResource.Ban" class="btn btn-primary"/>
+                                    }
+                                    else
+                                    {
+                                        <input type="submit" value="@GameStore.WEB.Resources.Comment.CommentResource.Ban" style="visibility: hidden" class="btn btn-primary"/>
+                                    }
+                                }
+                            }  
+                        </div>
+                        @if (Context.User.IsInRole("User") || Context.User.IsInRole("Moderator") || Context.User.IsInRole("Publisher") || Context.User.IsInRole("Guest"))
+                        {
+                            if (layer < 3)
+                            {
+                                if (ViewBag.Id != item.Id.ToString())
+                                {
+                                    @BuildFooterButtons(item)
+                                }
+                                else
+                                {
+                                    @BuildFooterHiddenButtons(item)
+                                }
+                            }
+                        }
+                    </div>
+                    @SwitchForm(item.Id, item.Game.Key)
+                }
+                else
+                {
+                    <div class="d-flex align-items-center justify-content-center" style="height: 100px">
+                        <div>
+                            <h4>@GameStore.WEB.Resources.Comment.CommentResource.ThisCommentDeleted</h4>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            @BuildCommentList(comments, layer, item.Id)
+        }
+        layer = -1;
+    }
+}
+
+@helper BuildFooterButtons(CommentViewModel item)
+{
+    <div>
+        <div class="btn-group">
+            <button class="btn btn-primary addForm" id="@item.Id">@GameStore.WEB.Resources.Comment.CommentResource.Answer</button>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary quote" id="@item.Id">@GameStore.WEB.Resources.Comment.CommentResource.Quote</button>
+        </div>
+    </div>
+}
+
+@helper BuildFooterHiddenButtons(CommentViewModel item)
+{
+    <div>
+        <div class="btn-group">
+            <button class="btn btn-primary addForm" id="@item.Id" style="visibility: hidden">@GameStore.WEB.Resources.Comment.CommentResource.Answer</button>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary quote" id="@item.Id" style="visibility: hidden">@GameStore.WEB.Resources.Comment.CommentResource.Quote</button>
+        </div>
+    </div>
+}
+
+@helper SwitchForm(int id, string key)
+{
+    if (ViewBag.Id == id.ToString())
+    {
+        using (Html.BeginForm("AddComment", "Comment", FormMethod.Post))
+        {
+            @BuildForm(id, key)
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("AddComment", "Comment", FormMethod.Post))
+        {
+            @Html.Hidden("id", id)
+            @Html.Hidden("key", key)
+            <div class="form-container @id" id="@id">
+            </div>
+        }
+    }
+}
+
+@helper BuildForm(int id, string key)
+{
+    <div class="form-container @id" id="@id">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("id", id)
+        @Html.Hidden("key", key)
+        <div class="form-horizontal">
+           
+            @if (ViewBag.IsQuoted != null)
+            {
+                <blockquote id="quote" style="border-left: 2px solid gray; margin-left: 15px; background: lightgray; display:inline-block">@ViewBag.IsQuoted</blockquote>
+            }
+            else
+            {
+                <blockquote id="quote"></blockquote>
+            }
+            @Html.Hidden("quoted")
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.TextArea("Body", new { @rows = "5", @class = "form-control" })
+                    @Html.ValidationMessage("Body", "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("BanMessage", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink(GameStore.WEB.Resources.Comment.CommentResource.Submit, "AddComment", new {@class = "comment-link"})
+                @Html.ActionLink(GameStore.WEB.Resources.Comment.CommentResource.Cancel, null, new {@class = "btn-cancel comment-link"})
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,399 @@
+﻿@using System.Threading
+@using GameStore.WEB.Models
+@using GameStore.WEB.Resources.Comment
+@using GameStore.WEB.Resources.Game
+@model GameStore.WEB.Models.DomainViewModel.GameCommentViewModel
+
+@Html.Hidden("ActionName", Url.Action("NewComment", "Comment"))
+@Html.Hidden("ActionDelete", Url.Action("Delete", "Comment"))
+
+<div>@Html.ActionLink(GameResource.BackToList, "Index")</div>
+<div class="game-detail-body">
+    <div class="game-pictures-block">
+        <img src="~/Content/Images/GameDetail/AceVideo.PNG"/>
+        <div class="game-mini-pictures">
+            <div>
+                <img src="~/Content/Images/GameDetail/MiniFoto.PNG"/>
+            </div>
+            <div>
+                <img src="~/Content/Images/GameDetail/Font.PNG"/>
+            </div>
+            <div>
+                <img src="~/Content/Images/GameDetail/Airplane.PNG"/>
+            </div>
+        </div>
+    </div>
+    <div class="game-description-block">
+        <div>
+            <h2>
+                @Html.DisplayFor(model => model.GameViewModel.Name)
+            </h2>
+        </div>
+        <div class="price-rating-block">
+            <div>
+                <h3>@Thread.CurrentThread.CurrentUICulture.NumberFormat.CurrencySymbol @Html.DisplayFor(model => model.GameViewModel.Price)</h3>
+            </div>
+            <div class="rating-block">
+                <div>
+                    <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+                    <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+                    <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+                    <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+                    <img src="~/Content/Images/GameDetail/Star.svg"/>
+                </div>
+                <div>
+                    @Model.GameViewModel.Comments.Count Comments
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="game-publisher">
+            @if (Model.GameViewModel.Publisher != null)
+            {
+                @Html.ActionLink(Model.GameViewModel.Publisher.CompanyName, "Details", "Publisher", new {Model.GameViewModel.Publisher.CompanyName}, null)
+            }
+            else
+            {
+                @GameResource.Unknown
+            }
+        </div>
+        <div class="publication-block">
+            <div>
+                Game Store
+            </div>
+            <div>Released @Model.GameViewModel.DatePublication</div>
+        </div>
+        <div class="playable-block">
+            <div>
+                <div class="block-head">Playable on</div>
+                <div>@SelectPlatformType(Model.GameViewModel.PlatformTypes)</div>
+            </div>
+            <div id="FileSize">
+                <div class="block-head">File size</div>
+                <div>53.76 GB</div>
+            </div>
+        </div>
+        <div class="genres-block">
+            <div class="block-head">@GameResource.Genres</div>
+            <div class="genres-list">
+                @if (Model.GameViewModel.Genres.Any())
+                {
+                    foreach (var genre in Model.GameViewModel.Genres)
+                    {
+                        <div class="genre-item">@Html.ActionLink(genre.Name, null)</div>
+                    }
+                }
+                else
+                {
+                    <div class="genre-item">@GameResource.Other</div>
+                }
+            </div>
+        </div>
+        <div>
+            @if (!Context.User.IsInRole("Administrator") && !Context.User.IsInRole("Manager"))
+            {
+                @Html.ActionLink(GameResource.AddToBasket, "AddIntoBasket", "Order", new {key = Model.GameViewModel.Key}, new {@class = "buy-button"})
+                @Html.ActionLink(GameResource.Download, "Download", "Game", null, new {@class = "buy-button"})
+            }
+
+            @if (Context.User.IsInRole("Administrator") || Context.User.IsInRole("Manager") || Context.User.IsInRole("Publisher"))
+            {
+                @Html.ActionLink(GameResource.Edit, "Update", "Game", new {key = Model.GameViewModel.Key}, new {@class = "buy-button"})
+            }
+
+            @if (Context.User.IsInRole("Administrator") || Context.User.IsInRole("Manager"))
+            {
+                @Html.ActionLink(GameResource.Delete, "Delete", "Game", new {key = Model.GameViewModel.Key}, new {@class = "buy-button"})
+            }
+        </div>
+        <hr/>
+        <div class="what-you-get-block">
+            <h3>What You Get</h3>
+            <div>
+                <p>
+                    Purchase the Ace Combat 7: Skies Unknown Launch Edition, available until 2/18/2019, and get the following content:
+                </p>
+                <div class="ul-list">
+                    <div>
+                        <div class="bullet"></div>
+                        <div>
+                            Ace Combat 7: Skies Unknown;
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bullet"></div>
+                        <div>
+                            Ace Combat 5: The Unsung War;
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bullet"></div>
+                        <div>
+                            Playable F-4E Phantom II aircraft;
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bullet"></div>
+                        <div>
+                            3 popular aircraft skins from past titles (Su-37: Yellow 13, F-14D: Razgriz, F-15C).
+                        </div>
+                    </div>
+                </div>
+                <p>This bundle also comes with the playable aircraft F-104C: Avril DLC as a digital-exclusive bonus.</p>
+            </div>
+        </div>
+        <div>
+            <h3>@GameResource.Description</h3>
+            <p>@Model.GameViewModel.Description</p>
+        </div>
+    </div>
+</div>
+
+<hr/>
+
+<div class="game-comments-header">
+    <div>
+        <h3>@Model.GameViewModel.Comments.Count Comments</h3>
+        <div class="comments-rating">
+            <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+            <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+            <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+            <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+            <img src="~/Content/Images/GameDetail/Star.svg"/>
+            <div>4.0</div>
+        </div>
+    </div>
+    <div id="d0">
+        @if (Context.User.IsInRole("User") || Context.User.IsInRole("Moderator") || Context.User.IsInRole("Publisher") || Context.User.IsInRole("Guest"))
+        {
+            if (Model.Id != "0")
+            {
+                <a href="#" class="buy-button addForm" id="0">@CommentResource.AddComment</a>
+            }
+            else
+            {
+                <a href="#" class="buy-button addForm" id="0" style="visibility: hidden">@CommentResource.AddComment</a>
+            }
+        }
+    </div>
+</div>
+<div>
+    @SwitchForm(0, Model.GameViewModel.Key)
+</div>
+
+@{
+    var layer = 0;
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+
+<div class="comments-body">
+    @BuildCommentList(Model.GameViewModel.Comments, layer)
+</div>
+
+
+@helper BuildCommentList(IEnumerable<CommentViewModel> comments, int layer, int? parentId = null)
+{
+    var items = comments.Where(d => d.ParentId == parentId).OrderBy(i => i.Order);
+    if (items.Any())
+    {
+        ++layer;
+        foreach (var item in items)
+        {
+            @Html.Hidden("GameId", item.GameId)
+            @Html.Hidden("CrossProperty", item.CrossProperty)
+            var idName = "d" + item.Id;
+            var idBody = "b" + item.Id;
+            <div class="comment-block" id="@idName">
+                @if (item.IsDeleted == false)
+                {
+                    <div>
+                        <img src="~/Content/Images/Users/UserPhoto.png"/>
+                    </div>
+                    <div class="comment-body">
+                        <div class="comment-header">
+                            <div>
+                                <div class="comment-author">@item.Name</div>
+                                <div class="comment-date">20/01/2019</div>
+                            </div>
+                            <div class="comments-rating">
+                                <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+                                <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+                                <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+                                <img src="~/Content/Images/GameDetail/OrangeStar.svg"/>
+                                <img src="~/Content/Images/GameDetail/Star.svg"/>
+                            </div>
+                        </div>
+
+                        @if (item.IsQuoted)
+                        {
+                            <blockquote style="background: lightgray; border-left: 2px solid gray; display: inline-block; margin-left: 15px;">
+                                @if (item.ParentComment.IsDeleted)
+                                {
+                                    <span>@CommentResource.ThisCommentDeleted</span>
+                                }
+                                else
+                                {
+                                    @item.ParentComment.Body
+                                }
+                            </blockquote>
+                        }
+
+                        <p id="@idBody">@Html.DisplayFor(model => item.Body)</p>
+
+                        @if (layer < 3)
+                        {
+                            if (Model.Id != item.Id.ToString())
+                            {
+                                @BuildFooterButtons(item)
+                            }
+                            else
+                            {
+                                @BuildFooterHiddenButtons(item)
+                            }
+                        }
+                    </div>
+
+                    <div class="d-flex flex-row-reverse justify-content-between">
+                        <div>
+
+                        </div>
+
+                    </div>
+                    @SwitchForm(item.Id, item.Game.Key)
+                }
+                else
+                {
+                    <div>
+                        <h4>@CommentResource.ThisCommentDeleted</h4>
+                    </div>
+                }
+
+            </div>
+            @BuildCommentList(comments, layer, item.Id)
+        }
+        layer = -1;
+    }
+}
+
+@helper BuildFooterButtons(CommentViewModel item)
+{
+    <div class="comment-links-block">
+        @if (Context.User.IsInRole("User") || Context.User.IsInRole("Moderator") || Context.User.IsInRole("Publisher") || Context.User.IsInRole("Guest"))
+        {
+            <div>
+                <a href="#" class="comment-link addForm" id="@item.Id">Like</a>
+                <a href="#" class="comment-link addForm" id="@item.Id">@CommentResource.Answer</a>
+                <a href="#" class="comment-link quote" id="@item.Id">@CommentResource.Quote</a>
+            </div>
+        }
+        @if (Context.User.IsInRole("Administrator") || Context.User.IsInRole("Moderator"))
+        {
+            <div>
+                <a href="#" class="comment-link">@CommentResource.Ban</a>
+                @Html.ActionLink(CommentResource.Ban, "Ban", "Comment", new {user = item.Name}, new {@class = "comment-link"})
+
+                @Html.ActionLink(CommentResource.Delete, "Delete", new {id = item.Id}, new {@class = "comment-link delete"})
+            </div>
+        }
+    </div>
+}
+
+@helper BuildFooterHiddenButtons(CommentViewModel item)
+{
+    <div class="comment-links-block">
+        @if (Context.User.IsInRole("User") || Context.User.IsInRole("Moderator") || Context.User.IsInRole("Publisher") || Context.User.IsInRole("Guest"))
+        {
+            <div>
+                <a href="#" class="comment-link addForm" id="@item.Id">Like</a>
+                <a href="#" class="comment-link addForm" id="@item.Id" style="visibility: hidden">@CommentResource.Answer</a>
+                <a href="#" class="comment-link quote" id="@item.Id" style="visibility: hidden">@CommentResource.Quote</a>
+            </div>
+        }
+        @if (Context.User.IsInRole("Administrator") || Context.User.IsInRole("Moderator"))
+        {
+            <div>
+                @using (Html.BeginForm("Ban", "Comment", FormMethod.Post))
+                {
+                    @Html.Hidden("user", item.Name)
+                    <a href="#" class="comment-link" style="visibility: hidden">@CommentResource.Ban</a>
+                }
+
+                @Html.ActionLink(CommentResource.Delete, "Delete", new {id = item.Id}, new {style = "visibility: hidden", @class = "comment-link delete"})
+            </div>
+        }
+    </div>
+}
+
+@helper SwitchForm(int id, string key)
+{
+    if (Model.Id == id.ToString())
+    {
+        using (Html.BeginForm("AddComment", "Comment", FormMethod.Post))
+        {
+            @BuildForm(id, key)
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("AddComment", "Comment", FormMethod.Post))
+        {
+            @Html.Hidden("id", id)
+            @Html.Hidden("key", key)
+            <div class="form-container @id" id="@id">
+            </div>
+        }
+    }
+}
+
+@helper BuildForm(int id, string key)
+{
+    <div class="form-container @id" id="@id">
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        @Html.Hidden("id", id)
+        @Html.Hidden("key", key)
+        <div class="form-horizontal">
+
+            @if (Model.Quoted != null)
+            {
+                <blockquote id="quote" style="background: lightgray; border-left: 2px solid gray; display: inline-block; margin-left: 15px;">@ViewBag.IsQuoted</blockquote>
+            }
+            else
+            {
+                <blockquote id="quote"></blockquote>
+            }
+            @Html.Hidden("quoted")
+
+            <div class="form-group">
+                @Html.Label("Body", new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.CommentModel.Body, new {rows = "5", @class = "form-control"})
+                    @Html.ValidationMessage("Body", "", new {@class = "text-danger"})
+                    @Html.ValidationMessage("BanMessage", new {@class = "text-danger"})
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@CommentResource.Submit" class="btn btn-primary"/>
+                <button class="btn btn-primary btn-cancel">@CommentResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@helper SelectPlatformType(ICollection<PlatformTypeViewModel> platformTypes)
+{
+    var platform = "";
+    foreach (var type in platformTypes.Select(x => x.Type).Take(2))
+    {
+        platform += type;
+        platform += " ";
+    }
+
+    <div>@platform</div>
+}

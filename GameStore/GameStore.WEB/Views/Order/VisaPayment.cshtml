@@ -1,0 +1,74 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>VisaPayment</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="container">
+    @using (Html.BeginForm())
+    {
+        <div class="border border-dark rounded mt-3">
+            <div class="form-group">
+                <label for="Name" class="control-label col-md-2">@GameStore.WEB.Resources.Order.OrderResource.CartName</label>
+                <div class="col-md-12">
+                    <input type="text" id="Name" name="Name" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Number" class="control-label col-md-2">@GameStore.WEB.Resources.Order.OrderResource.CartNumber</label>
+                <div class="col-md-12">
+                    <input type="text" id="Number" name="Number" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group d-flex flex-row">
+                <div class="text-center d-flex flex-wrap align-content-center">                
+                    <p class="control-label ml-2 mt-5">@GameStore.WEB.Resources.Order.OrderResource.DateExpiry</p>
+                </div>
+                <div class="d-flex col-md-10 flex-row">
+                    <div class="m-3">
+                        <label for="Month" class="control-label col-md-2">@GameStore.WEB.Resources.Order.OrderResource.Month</label>
+                        <div>
+                            <input type="text" id="Month" name="Month" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="m-3">
+                        <label for="Year" class="control-label col-md-2">@GameStore.WEB.Resources.Order.OrderResource.Year</label>
+                        <div>
+                            <input type="text" id="Year" name="Year" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="border border-dark rounded mt-3">
+            <div class="container-fluid mt-4" style="background-color: black; height: 35px"></div>
+            <div class="form-group d-flex justify-content-end mt-4">
+                <div>
+                    <label for="CVV" class="control-label col-md-2">CVV/CVC</label>
+                    <div class="col-md-12">
+                        <input type="text" id="CVV" name="CVV" class="form-control"/>
+                    </div>
+                </div>            
+            </div>
+        </div>
+        <div class="form-group mt-4 text-center">
+            <div class="col-md-offset-2 col-md-12">
+                @Html.ActionLink(GameStore.WEB.Resources.Order.OrderResource.Submit, "CompleteOrder", null, new {@class= "btn btn-primary", @role="button" })
+            </div>
+        </div>
+    }
+    <div>
+        @Html.ActionLink(@GameStore.WEB.Resources.Order.OrderResource.ComeBack, "MakeOrder")
+    </div>
+</div>
+</body>
+</html>

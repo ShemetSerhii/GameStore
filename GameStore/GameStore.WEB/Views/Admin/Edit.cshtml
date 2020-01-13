@@ -1,0 +1,48 @@
+﻿@model GameStore.WEB.Models.DomainViewModel.EditorModels.UserEditorModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.UserModel.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserModel.IsBanned, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.UserModel.IsBanned)
+                    @Html.ValidationMessageFor(model => model.UserModel.IsBanned, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group" id="BanExpires">
+            @Html.LabelFor(model => model.UserModel.BanExpires, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 date-box">
+                @Html.EditorFor(model => model.UserModel.BanExpires, new { htmlAttributes = new { @class = "form-control " } })
+                @Html.ValidationMessageFor(model => model.UserModel.BanExpires, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="control-label col-md-2">@GameStore.WEB.Resources.Admin.AdminResource.Roles:</div>
+            <div class="col-md-10">
+                @Html.ListBox("rolesSelected", Model.Roles, new { @class = "form-control listbox" } )
+                @Html.ValidationMessageFor(model => model.UserModel.Roles, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@GameStore.WEB.Resources.Admin.AdminResource.SaveButton" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink(@GameStore.WEB.Resources.Admin.AdminResource.BackToList, "Index")
+</div>

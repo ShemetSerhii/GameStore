@@ -1,0 +1,142 @@
+﻿.cart-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-body {
+    margin-right: 30px;
+    width: 100%;
+}
+
+.cart-body hr { margin: 24px 0; }
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-header h3 {
+    color: #3E4554;
+    font-family: Montserrat;
+    font-weight: bold;
+}
+
+.cart-header div {
+    color: #3E4554;
+    font-family: Open Sans;
+}
+
+.order-summary {
+    background-color: #F7F7F7;
+    color: #3E4554;
+    font-family: Open Sans;
+    max-height: 310px;
+    max-width: 350px;
+    padding: 25px 30px;
+    width: 100%;
+}
+
+.order-summary h4 {
+    color: #3E4554;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.order-summary hr { margin-top: 20px; }
+
+.order-summary div:last-child { text-align: center; }
+
+.subtotal-block {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.taxes-block {
+    display: flex;
+    justify-content: space-between;
+}
+
+.total-block {
+    display: flex;
+    font-family: Open Sans;
+    font-size: 18px;
+    font-weight: 600;
+    justify-content: space-between;
+}
+
+.total-block div { color: #FF7E2A; }
+
+.order-make-btn {
+    background: #FF7E2A;
+    color: #FFFFFF;
+    display: block;
+    font-family: Montserrat;
+    font-weight: 500;
+    margin-top: 20px;
+    padding: 13px 0;
+    width: 100%;
+}
+
+.order-make-btn:hover { color: #FFFFFF; }
+
+.cart-item {
+    color: #3E4554;
+    display: flex;
+    font-family: Open Sans;
+}
+
+.product-img { margin-right: 24px; }
+
+.product-body { width: 100%; }
+
+.product-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-header .comment-link { margin: 0; }
+
+.product-name { font-family: Montserrat; }
+
+.product-publisher { font-size: 14px; }
+
+.product-size {
+    color: #727272;
+    font-size: 14px;
+}
+
+.product-price {
+    color: #404040;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.product-quantity-control {
+    display: flex;
+    margin-top: 20px;
+}
+
+.product-quantity-control a {
+    display: inline-block;
+    padding: 6px 12px;
+}
+
+.add-btn, .remove-btn { border: 1px solid #D8D8D8; }
+
+.product-quantity-control-hover {
+    background: #FF7E2A;
+    border: 1px solid #FF7E2A;
+    color: #F7F7F7;
+}
+
+.product-quantity {
+    font-size: 18px;
+    margin: 5px 17px;
+}
+
+.disabled {
+    pointer-events: none;
+}

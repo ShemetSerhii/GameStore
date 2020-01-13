@@ -1,0 +1,33 @@
+﻿@model GameStore.WEB.Models.PublisherViewModel
+
+<div class="container">
+    <h4>@GameStore.WEB.Resources.Publisher.PublisherResource.Details</h4>
+    <hr />
+    <div class="list-group">
+        <p>
+            <span class="font-weight-bold">@Html.DisplayNameFor(model => model.CompanyName):</span>
+            @Html.DisplayFor(model => model.CompanyName)
+        </p>
+       
+        <p>
+            <span class="font-weight-bold">@Html.DisplayNameFor(model => model.Description):</span>
+            @Html.DisplayFor(model => model.Description)
+        </p>
+    
+        <p>
+            <span class="font-weight-bold">@Html.DisplayNameFor(model => model.HomePage):</span>
+            @Html.DisplayFor(model => model.HomePage)
+        </p>
+        <p class="font-weight-bold">@GameStore.WEB.Resources.Publisher.PublisherResource.Games:</p>
+        <ul>
+            @foreach (var game in Model.Games)
+            {
+                <li>@Html.ActionLink(game.Name, "Details", "Game", new { key = game.Key }, null)</li>
+            }
+        </ul>
+    </div>
+    <hr /> 
+    <p>
+        @Html.ActionLink(@GameStore.WEB.Resources.Publisher.PublisherResource.BackToList, "Index")
+    </p>
+</div>

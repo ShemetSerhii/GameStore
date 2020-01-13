@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+
+@model GameStore.WEB.Models.CommentViewModel
+
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="form-horizontal">
+    <div class="form-group">
+    </div>
+    <blockquote id="quote"></blockquote>
+    @Html.Hidden("quoted")
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Body, new {@rows = "5", @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.Body, "", new {@class = "text-danger"})
+            @Html.ValidationMessage("BanMessage", new {@class = "text-danger"})
+        </div>
+    </div>
+</div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" name="@GameStore.WEB.Resources.Comment.CommentResource.Submit" class="comment-link"/>
+            @Html.ActionLink(GameStore.WEB.Resources.Comment.CommentResource.Cancel, null, null, new {@class = "btn-cancel comment-link"})
+        </div>
+    </div>
+

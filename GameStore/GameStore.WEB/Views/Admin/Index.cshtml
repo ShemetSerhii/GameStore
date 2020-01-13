@@ -1,0 +1,41 @@
+﻿@model IEnumerable<GameStore.WEB.Models.DomainViewModel.Identity.UserViewModel>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsBanned)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <th>
+            @Html.DisplayFor(modelItem => item.Id)
+        </th>
+        <td>
+            @Html.DisplayFor(modelItem => item.Login)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsBanned)
+        </td>
+        <td class="btn-group">
+            @Html.ActionLink(@GameStore.WEB.Resources.Admin.AdminResource.Details, "UserDetails", new { login = @item.Login }, new { @class = "btn btn-success", @role = "button" })
+            @Html.ActionLink(@GameStore.WEB.Resources.Admin.AdminResource.EditButton, "Edit", new { login = @item.Login }, new { @class = "btn btn-success", @role = "button" })
+        </td>
+    </tr>
+}
+</table>

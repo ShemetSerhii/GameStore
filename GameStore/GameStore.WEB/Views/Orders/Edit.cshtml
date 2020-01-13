@@ -1,0 +1,62 @@
+﻿@model GameStore.WEB.Models.DomainViewModel.EditorModels.OrderEditorModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.OrderModel.Id)
+        @Html.HiddenFor(model => model.OrderModel.CustomerId)
+        @Html.HiddenFor(model => model.OrderModel.OrderDate)
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderModel.CustomerId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.OrderModel.CustomerId, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderModel.OrderDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.OrderModel.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">@GameStore.WEB.Resources.Orders.OrdersResource.OrderStatus</div>
+            <div class="col-md-10">
+                    @Html.DropDownList("selectStatus", Model.OrderStatuses, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.OrderModel.OrderStatus, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderModel.Shipper, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("selectShipper", Model.Shippers, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OrderModel.Shipper, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderModel.ShippedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 date-box">
+                @Html.EditorFor(model => model.OrderModel.ShippedDate, new { htmlAttributes = new { @class = "form-control " } })
+                @Html.ValidationMessageFor(model => model.OrderModel.ShippedDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@GameStore.WEB.Resources.Orders.OrdersResource.Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink(@GameStore.WEB.Resources.Orders.OrdersResource.BackToList, "Index")
+</div>

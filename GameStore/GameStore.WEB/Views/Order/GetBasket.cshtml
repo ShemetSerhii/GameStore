@@ -1,0 +1,79 @@
+﻿@using GameStore.WEB.Models
+@using GameStore.WEB.Resources.Order
+@model IEnumerable<GameStore.WEB.Models.OrderDetailViewModel>
+
+<div class="cart-container">
+    <div class="cart-body">
+        <div class="cart-header">
+            <h3>@OrderResource.Basket</h3>
+            <div>@Model.Select(x => (int)x.Quantity).Sum() items</div>
+        </div>
+        <div>
+            @foreach (var item in Model)
+            {
+                <hr/>
+                <div class="cart-item">
+                    <div class="product-img">
+                        <img src="~/Content/Images/GamePicture/AceCombat7.png"/>
+                    </div>
+                    <div class="product-body">
+                        <div class="product-header">
+                            <div class="product-name">@item.Game.Name</div>
+                            @Html.ActionLink(OrderResource.Delete, "Delete", "Order", new {gameId = item.GameId}, new {@class = "comment-link"})
+                        </div>
+                        <div class="product-publisher">@item.Game.Publisher.CompanyName</div>
+                        <div class="product-size">53.76 GB</div>
+                        <div class="product-price">$@Sum(item)</div>
+                        <div class="product-quantity-control">
+                            <div class="remove-btn"><a href="@Url.Action("OrderReduction", new {@gameId = item.GameId})"><img src="~/Content/Images/Cart/Remove Icon.svg"/></a></div>
+                            <div class="product-quantity">@item.Quantity</div>
+                            <div class="add-btn"><a href="@Url.Action("AddIntoBasket", new {@key = item.Game.Key})"><img src="~/Content/Images/Cart/Add Icon-Orange.svg" /></a></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="order-summary">
+        <h4>Oder Summary</h4>
+        <hr/>
+        <div class="subtotal-block">
+            <div>Subtotal</div>
+            <div>$@Model.Select(x => x.Price * x.Quantity).Sum()</div>
+        </div>
+        <div class="taxes-block">
+            <div>Taxes</div>
+            <div>@CountTaxes(Model.Select(x => x.Price * x.Quantity).Sum())</div>
+        </div>
+        <hr/>
+        <div class="total-block">
+            <h4>Total</h4>
+            <div>@Total(Model.Select(x => x.Price * x.Quantity).Sum())</div>
+        </div>
+        <div>
+            @Html.ActionLink(OrderResource.MakeOrder, "MakeOrder", "Order", null, new {@class = "order-make-btn"})
+        </div>
+    </div>
+</div>
+
+@helper Sum (OrderDetailViewModel item)
+{
+    var sum = item.Price * item.Quantity;
+
+    @sum
+}
+
+@helper CountTaxes(decimal sum)
+{
+    sum *= (decimal) 0.025;
+
+
+<span>$@decimal.Round(sum, 2)</span>
+}
+
+@helper Total(decimal sum)
+{
+    sum += sum * (decimal) 0.025;
+   
+    <spam>$@decimal.Round(sum, 2)</spam>
+}

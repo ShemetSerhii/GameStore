@@ -1,0 +1,168 @@
+﻿@using System.Threading
+@using GameStore.WEB.Helpers
+@using GameStore.WEB.Models
+@using GameStore.WEB.Resources.Game
+@model GameStore.WEB.Models.GameIndexViewModel
+
+<div class="game-list-body">
+    <div class="game-list">
+        <div class="game-list-header">
+            <div>
+                <h3>Games</h3>
+            </div>
+            <div>
+                <div>
+                    @using (Html.BeginForm("Index", "Game", FormMethod.Get, new {@class = "form"}))
+                    {
+                        @Html.DropDownList("pageSize", new SelectList(new[] {"10", "20", "50", "100", "all"}, "10"), new {@class = "form-control PageSize"})
+                    }
+                </div>
+                <div>
+                    @Html.TextBoxFor(model => Model.FilterModel.PartOfName, new {@class = "form-control form-control-sm", placeholder = GameResource.Search})
+                </div>
+            </div>
+        </div>
+        <div>
+            <div id="create-new">
+                @if (Context.User.IsInRole("Administrator") || Context.User.IsInRole("Manager"))
+                {
+                    <p>
+                        @Html.ActionLink(GameResource.CreateNew, "New")
+                    </p>
+                }
+            </div>
+            <div class="list-items">
+                @foreach (var item in Model.GameViewModels)
+                {
+                    <div class="game-item">
+                        <a href="@Url.Action("Details", new {key = item.Key})">
+                            <div>
+                                <img src="~/Content/Images/GamePicture/AceCombat7.png" alt="Game picture"/>
+                            </div>
+                            <div>
+                                <div class="game-name">
+                                    @item.Name
+                                </div>
+                                <div class="game-info">
+                                    @SelectPlatformType(item.PlatformTypes)
+                                </div>
+                                <div class="game-price">
+                                    @Thread.CurrentThread.CurrentUICulture.NumberFormat.CurrencySymbol@item.Price
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+            <div class="game-list-page-links">
+                @Html.PageLinks(Model.PageInfo, x => Url.Action("Filter", new {page = x}))
+            </div>
+        </div>
+    </div>
+    <div class="filter-aside">
+        <h3>Refine Results</h3>
+        <div class="filter-aside-body">
+            @using (Html.BeginForm("Filter", "Game"))
+            {
+                @Html.HiddenFor(model => Model.FilterModel.PartOfName, new {@class = "hidden-part-name"})
+                <div class="form-group">
+                    @Html.Label(GameResource.Sorting, new {@class = "aside-label"})
+                    <hr/>
+                    <div>
+                        @Html.DropDownListFor(model => Model.FilterModel.SortingType, Model.FilterModel.SortingTypesList, new {@class = "form-control form-control-sm", placeholder = "Sorting types"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(GameResource.PriceRange, new {@class = "aside-label"})
+                    <hr/>
+                    <div class="d-flex justify-content-between">
+                        @Html.TextBoxFor(model => Model.FilterModel.PriceRangeFrom, new {@class = "form-control form-control-sm m-1"})
+                        @Html.TextBoxFor(model => Model.FilterModel.PriceRangeTo, new {@class = "form-control form-control-sm m-1"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(GameResource.Publisher, new {@class = "aside-label"})
+                    <hr/>
+                    <div>
+                        @CreateCheckBoxList("PublishersName", Model.FilterModel.Publishers)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(GameResource.ReleaseDate, new {@class = "aside-label"})
+                    <hr/>
+                    <div>
+                        @CreateRadioBoxList("PublicationTime", Model.FilterModel.PublicationTimes)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(GameResource.Genre, new {@class = "aside-label"})
+                    <hr/>
+                    <div>
+                        @CreateCheckBoxList("GenresName", Model.FilterModel.Genres)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(GameResource.Platform, new {@class = "aside-label"})
+                    <hr/>
+                    <div>
+                        @CreateCheckBoxList("PlatformTypesName", Model.FilterModel.PlatformTypes)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2">
+                        <input type="submit" value="@GameResource.Filter" class="btn btn-primary"/>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@helper CreateCheckBoxList(string name, List<SelectListItem> source)
+{
+    var index = 0;
+    foreach (var item in source)
+    {
+        <div>
+            <input type="checkbox"
+                   name="FilterModel.@name"
+                   value="@item.Value"
+                   id="@name@index"/>
+            <label for="@name@index">
+                @item.Text
+            </label>
+        </div>
+        index++;
+    }
+}
+
+@helper CreateRadioBoxList(string name, List<SelectListItem> source)
+{
+    var index = 0;
+    foreach (var item in source)
+    {
+        <div>
+            <input type="radio"
+                   name="FilterModel.@name"
+                   value="@item.Value"
+                   id="@name@index"/>
+            <label for="@name@index">
+                @item.Text
+            </label>
+        </div>
+        index++;
+    }
+}
+
+@helper SelectPlatformType(ICollection<PlatformTypeViewModel> platformTypes)
+{
+    var platform = "";
+    foreach (var type in platformTypes.Select(x => x.Type).Take(2))
+    {
+        platform += type;
+        platform += " ";
+    }
+
+    <div>@platform</div>
+}

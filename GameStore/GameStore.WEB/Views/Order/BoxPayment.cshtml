@@ -1,0 +1,67 @@
+﻿@model GameStore.WEB.Models.OrderViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>IBox</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="container">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CustomerId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CustomerId, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Sum" class="control-label col-md-2">@GameStore.WEB.Resources.Order.OrderResource.TotalSum</label>
+                    <div class="col-md-10">
+                        @{
+                            decimal sum = 0;
+
+                            foreach (var detail in Model.OrderDetails)
+                            {
+                                sum += detail.Price;
+                            }
+                        }
+                        @Html.TextBox(@GameStore.WEB.Resources.Order.OrderResource.Sum, sum.ToString(), new { @class = "form-control", @readonly = true } )
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.ActionLink(GameStore.WEB.Resources.Order.OrderResource.Submit, "CompleteOrder", null, new {@class= "btn btn-primary", @role="button" })
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink(@GameStore.WEB.Resources.Order.OrderResource.ComeBack, "MakeOrder")
+        </div>
+    </div>
+</body>
+</html>

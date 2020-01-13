@@ -1,0 +1,190 @@
+﻿.game-detail-body {
+    color: #3E4554;
+    display: flex;
+    font-family: Open Sans;
+}
+
+.game-detail-body h3 {
+    font-family: Montserrat;
+    font-weight: 600;
+}
+
+.game-detail-body hr { background: #D8D8D8; }
+
+.game-pictures-block {
+    margin-right: 30px;
+    width: 100%;
+}
+
+.game-pictures-block img:first-child { width: 100%; }
+
+.game-mini-pictures {
+    display: flex;
+    justify-content: space-between;
+}
+
+.game-mini-pictures img {
+    height: 115px;
+    margin-top: 30px;
+    width: 160px;
+}
+
+.game-description-block { width: 100%; }
+
+.game-description-block h2 {
+    font-family: Montserrat;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+.price-rating-block {
+    display: flex;
+    justify-content: space-between;
+}
+
+.price-rating-block h2, .price-rating-block h3 { font-family: Montserrat; }
+
+.rating-block { display: flex; }
+
+.rating-block div:last-child {
+    font-weight: 600;
+    margin-left: 15px;
+    margin-top: 3px;
+}
+
+.game-publisher a {
+    color: #3E4554;
+    font-weight: 600;
+}
+
+.publication-block { display: flex; }
+
+.publication-block div:last-child { margin-left: 10px; }
+
+.publication-block div:first-child {
+    border-right: 1px solid #D8D8D8;
+    padding-right: 10px;
+}
+
+.playable-block {
+    display: flex;
+    margin-top: 22px;
+}
+
+#FileSize { margin-left: 60px; }
+
+.block-head { font-weight: 600; }
+
+.genres-block { margin-top: 22px; }
+
+.genres-block .block-head { margin-bottom: 14px; }
+
+.genres-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.genre-item {
+    background-color: #FFFFFF;
+    border: 1px solid #FF7E2A;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 4px 20px;
+}
+
+.genre-item a { color: #3E4554; }
+
+.buy-button {
+    background: #FF7E2A;
+    color: #FFFFFF;
+    display: inline-block;
+    font-family: Montserrat;
+    font-weight: 500;
+    margin-bottom: 32px;
+    margin-right: 15px;
+    margin-top: 22px;
+    padding: 13px 32px;
+}
+
+.buy-button:hover { color: #FFFFFF; }
+
+.what-you-get-block .ul-list { margin-bottom: 0; }
+
+.game-comments-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.game-comments-header h3 {
+    font-family: Montserrat;
+    font-weight: bold;
+}
+
+.comments-rating {
+    color: #FF7E2A;
+    display: flex;
+    font-family: Open Sans;
+    font-weight: bold;
+}
+
+.comments-rating div { margin-left: 10px; }
+
+.game-comments-header .buy-button { margin: 0; }
+
+.game-comments-header a { color: #FFFFFF; }
+
+.comments-body { margin-top: 35px; }
+
+.comment-block {
+    background-color: #F7F7F7;
+    display: flex;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 25px;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-author {
+    color: #3E4554;
+    font-family: Montserrat;
+    font-weight: 500;
+}
+
+.comment-date {
+    color: #7B7B7B;
+    font-family: Open Sans;
+    font-size: 12px;
+}
+
+.comment-body {
+    margin-left: 20px;
+    width: 100%;
+}
+
+.comment-body p {
+    color: #3E4554;
+    font-family: Open Sans;
+    margin-top: 15px;
+}
+
+.comment-link {
+    color: #FF7E2A;
+    font-family: Montserrat;
+    margin-right: 25px;
+    text-decoration: underline;
+}
+
+.comment-link:hover { color: #FF7E2A; }
+
+.comment-links-block {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.comment-links-block div { display: flex; }

@@ -1,0 +1,43 @@
+﻿@using GameStore.WEB.Controllers.Tools
+@model string
+
+<div class="container">
+    <div class="d-flex justify-content-center border">
+        @using (Html.BeginForm("BanComments", "Account"))
+        {
+            @Html.Hidden("login", Model)
+            <div class="form-check">
+                <label class="form-check-label">
+                    @Html.RadioButton("options", BanOptions.OneHour, new { @class = "form-check-input" })
+                    @GameStore.WEB.Resources.Comment.CommentResource.Hour
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    @Html.RadioButton("options", BanOptions.OneDay, new { @class = "form-check-input" })
+                    @GameStore.WEB.Resources.Comment.CommentResource.Day
+                </label>
+            </div>
+            <div class="form-check disabled">
+                <label class="form-check-label">
+                    @Html.RadioButton("options", BanOptions.OneWeek, new { @class = "form-check-input" })
+                    @GameStore.WEB.Resources.Comment.CommentResource.Week
+                </label>
+            </div>
+            <div class="form-check disabled">
+                <label class="form-check-label">
+                    @Html.RadioButton("options", BanOptions.OneMonth, new { @class = "form-check-input" })
+                    @GameStore.WEB.Resources.Comment.CommentResource.Month
+                </label>
+            </div>
+            <div class="form-check disabled">
+                <label class="form-check-label">
+                    @Html.RadioButton("options", BanOptions.Permanent, new { @class = "form-check-input" })
+                    @GameStore.WEB.Resources.Comment.CommentResource.Permanent
+                </label>
+            </div>
+
+            <input type="submit" value="@GameStore.WEB.Resources.Comment.CommentResource.Submit" class="btn btn-primary" />
+        }
+    </div>
+</div>

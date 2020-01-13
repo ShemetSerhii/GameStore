@@ -1,0 +1,122 @@
+﻿@model GameStore.WEB.Models.GameViewModel
+
+@{
+    Layout = null;
+}
+
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.CrossProperty)
+        
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#" id="EU">EU</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#" id="RU">RU</a>
+    </li>
+</ul>
+
+<div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Id)
+            <div class="form-group Culture-EU">
+                @Html.LabelFor(model => model.Key, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Key, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group Culture-EU">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+            <div class="form-group Culture-RU">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NameRU, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group Culture-EU">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+            <div class="form-group Culture-RU">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DescriptionRU, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group Culture-EU">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group Culture-EU">
+                @Html.LabelFor(model => model.UnitsInStock, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.UnitsInStock, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UnitsInStock, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group Culture-EU">
+                @Html.LabelFor(model => model.Discontinued, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Discontinued)
+                        @Html.ValidationMessageFor(model => model.Discontinued, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+    
+            <div class="form-group Culture-EU">
+                @Html.LabelFor(model => model.Publisher, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("publisherSelect", ViewBag.Publishers as List<SelectListItem>, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PublisherId, "", new {@class = "text-danger"})
+                </div>
+            </div>
+            
+            <div class="form-group Culture-EU">
+                @Html.LabelFor(model => model.DatePublication, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 date-box">
+                    @Html.EditorFor(model => model.DatePublication, new { htmlAttributes = new { @class = "form-control " } })
+                    @Html.ValidationMessageFor(model => model.DatePublication, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+            <div class="form-group Culture-EU">
+                <div class="control-label col-md-2">@GameStore.WEB.Resources.Game.GameResource.Genres</div>
+                <div class="col-md-10">
+                    @Html.ListBox("genresSelect", ViewBag.Genres as List<SelectListItem>, new { @class = "form-control listbox" } )
+                    @Html.ValidationMessageFor(model => model.Genres, "", new {@class = "text-danger"})
+                </div>
+            </div>
+            
+            <div class="form-group Culture-EU">
+                <div class="control-label col-md-2">@GameStore.WEB.Resources.Game.GameResource.PlatformTypes</div>
+                <div class="col-md-10">
+                    @Html.ListBox("platformTypesSelect", ViewBag.PlatformTypes as List<SelectListItem>, new { @class = "form-control listbox" } )
+                    @Html.ValidationMessageFor(model => model.PlatformTypes, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+       
+

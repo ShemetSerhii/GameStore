@@ -1,0 +1,64 @@
+﻿@model IEnumerable<GameStore.WEB.Models.PublisherViewModel>
+
+<p>
+    @if (Context.User.IsInRole("Administrator") || Context.User.IsInRole("Manager"))
+    {
+        @Html.ActionLink(@GameStore.WEB.Resources.Publisher.PublisherResource.CreateNewButton, "Create")
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomePage)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HomePage)
+        </td>
+        <td>
+            @{
+                var CompanyName = item.CompanyName;
+
+                if (CompanyName.Contains("."))
+                {
+                    CompanyName = CompanyName.Replace(".", "$$point$$");
+                }
+
+                if (CompanyName.Contains("&"))
+                {
+                    CompanyName = CompanyName.Replace("&", "$$and$$");
+                }
+            }
+
+            @if (Context.User.IsInRole("Administrator") || Context.User.IsInRole("Manager") || Context.User.IsInRole("Publisher"))
+            {
+                @Html.ActionLink(@GameStore.WEB.Resources.Publisher.PublisherResource.EditButton, "Edit", new { companyName = CompanyName })
+            }
+
+            @Html.ActionLink(@GameStore.WEB.Resources.Publisher.PublisherResource.Details, "Details", new { companyName = CompanyName })
+
+            @if (Context.User.IsInRole("Administrator") || Context.User.IsInRole("Manager"))
+            {
+                @Html.ActionLink(@GameStore.WEB.Resources.Publisher.PublisherResource.DeleteButton, "Delete", new { companyName = CompanyName })
+            }
+        </td>
+    </tr>
+}
+
+</table>

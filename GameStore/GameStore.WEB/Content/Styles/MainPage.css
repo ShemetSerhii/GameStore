@@ -1,0 +1,129 @@
+﻿@font-face {
+    font-family: Montserrat;
+    src: url(../Fonts/Montserrat-Bold.ttf)
+}
+
+@font-face {
+    font-family: Open Sans;
+    src: url(../Fonts/OpenSans-Regular.ttf)
+}
+
+html {
+    background-color: rgb(33, 33, 33);
+    text-align: center;
+}
+
+body {
+    display: inline-block;
+    max-width: 1280px;
+    padding: 0;
+}
+
+header { position: relative; }
+
+a:hover { text-decoration: none; }
+
+.grey-background {
+    background: black;
+    height: 100%;
+    opacity: 0.4;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    left: 0;
+    margin-left: 6%;
+    margin-right: 6%;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.nav-block {
+    display: block;
+    margin-top: 5%;
+    z-index: 2;
+}
+
+.navbar {
+    color: rgb(254, 254, 254);
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-menu { display: flex; }
+
+.background-image {
+    height: 100%;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.header a { color: rgb(254, 254, 254); }
+
+.header-item {
+    color: rgb(254, 254, 254);
+    font-family: Montserrat;
+    font-weight: bold;
+}
+
+.logo { font-size: 2.2vw; }
+
+.title-block {
+    line-height: 2.5vw;
+    margin-bottom: 6%;
+    width: 45%;
+    z-index: 2;
+}
+
+.title-block div:last-child {
+    font-size: 1vw;
+    margin-top: 3%;
+    max-height: 60px;
+}
+
+#header-title {
+    font-size: 2.3vw; 
+    max-height: 100px;
+    z-index: 2;
+}
+
+.body-content { margin: 6%; }
+
+.footer {
+    background: #222222;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Montserrat;
+    justify-content: space-around;
+    padding: 5%;
+}
+
+.footer span { font-weight: 500; }
+
+.footer a { color: #FFFFFF; }
+
+.footer li { list-style: none; }
+
+.links-block { font-family: Open Sans; }
+
+.links-block div { margin-top: 12px; }
+
+.pictures-block { display: flex; }
+
+.pictures-block div { margin: 10px; }
+
+#copy-label {
+    font-family: Montserrat;
+    margin-top: 20%;
+}
+
+#lang-list { margin-top: 10%; }

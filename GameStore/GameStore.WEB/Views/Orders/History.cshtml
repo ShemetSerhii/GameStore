@@ -1,0 +1,69 @@
+﻿@model GameStore.WEB.Models.OrderHistoryModel.OrderHistoryModel
+
+<div>
+    @using (Html.BeginForm("GetHistoryLog", "Orders", FormMethod.Get))
+    {
+        <div class="d-flex justify-content-around">
+            <div class="form-group">
+                @Html.Label(@GameStore.WEB.Resources.Orders.OrdersResource.DateFrom, new { @class = "control-label" })
+                <div class="date-box">
+                    @Html.EditorFor(model => Model.TimeFrom, new { @class = "form-control " })
+                    @Html.ValidationMessageFor(model => model.TimeFrom, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label(@GameStore.WEB.Resources.Orders.OrdersResource.DateTo, new { @class = "control-label" })
+                <div class="date-box">
+                    @Html.EditorFor(model => Model.TimeTo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TimeTo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center form-group">
+            <div class="col-md-offset-2">
+                <input type="submit" value="@GameStore.WEB.Resources.Orders.OrdersResource.Search" class="btn btn-primary" />
+            </div>
+        </div>
+    }   
+</div>
+@if (Model.OrderModels.Any())
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName(@GameStore.WEB.Resources.Orders.OrdersResource.Customer)
+            </th>
+            <th>
+                @Html.DisplayName(@GameStore.WEB.Resources.Orders.OrdersResource.OrderDate)
+            </th>
+            <th>
+                @Html.DisplayName(@GameStore.WEB.Resources.Orders.OrdersResource.TotalPrice)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.OrderModels)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @{
+                        decimal total = item.OrderDetails.Select(x => (x.Price * x.Quantity) - (x.Price * x.Quantity * (decimal) x.Discount)).Sum();
+                    }
+                    @total
+                </td>
+                <td>
+                    @Html.ActionLink(@GameStore.WEB.Resources.Orders.OrdersResource.Details, "GetOrderDetails", "Orders", new {crossId = item.CrossId}, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+
