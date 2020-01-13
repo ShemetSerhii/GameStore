@@ -6,15 +6,21 @@ namespace GameStore.BLL.Interfaces
 {
     public interface IGameService
     {
-        IEnumerable<Game> GetAllGames();
         IEnumerable<Game> Pagination(IEnumerable<Game> games, int page, int pageSize);
-        Game GetGame(string key);
-        Game GetGameByInterimProperty(int id, string interimProperty);
-        void UpdateGame(Game game);
-        void DeleteGame(string key);
-        void CreateGame(Game game);
-        IEnumerable<Genre> GetGenres();
-        IEnumerable<PlatformType> GetPlatformTypes();
-        IEnumerable<Publisher> GetPublishers();
+
+        Task<Game> GetByKey(string key);
+
+        Task Update(Game game);
+
+        Task Delete(int id);
+
+        Task Create(Game game);
+
+        Task<IEnumerable<Game>> GetAll();
+
+        Task<IEnumerable<Game>> GetByGenre(Genre genre);
+
+        Task<IEnumerable<Game>> GetByPlatformType(PlatformType platformType);
+
     }
 }

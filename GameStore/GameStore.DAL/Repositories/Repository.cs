@@ -31,14 +31,19 @@ namespace GameStore.DAL.Repositories
             _entitySet.Remove(item);
         }
 
-        public Task<IEnumerable<TEntity>> GetAsync()
+        public async Task<IEnumerable<TEntity>> GetAsync()
         {
-            throw new NotImplementedException();
+            return await _entitySet.ToListAsync();
         }
 
         public Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate, Func<IEnumerable<TEntity>, IOrderedEnumerable<TEntity>> sorting = null)
         {
-            throw new NotImplementedException();
+            return null;
+        }
+
+        public Task<TEntity> GetAsync(int id)
+        {
+            return _entitySet.FindAsync(id);
         }
 
         public void Update(TEntity item)

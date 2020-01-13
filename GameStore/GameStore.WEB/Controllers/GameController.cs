@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using GameStore.WEB.Models.DomainViewModel;
 using GameStore.WEB.Resources.Game;
@@ -32,9 +32,9 @@ namespace GameStore.WEB.Controllers
             _pipeline = pipeline;
         }
 
-        public ViewResult Index(int page = 1, string pageSize = "10")
+        public async Task<ViewResult> Index(int page = 1, string pageSize = "10")
         {
-            var games = _gameService.GetAllGames();
+            var games = await _gameService.GetAll();
 
             var indexView = CreateGameIndexViewModel(games, page, pageSize);
 
@@ -66,7 +66,7 @@ namespace GameStore.WEB.Controllers
         [Authorize(Roles = "Administrator, Manager")]
         public ActionResult New(GameViewModel gameView, string[] publisherSelect, string[] genresSelect, string[] platformTypesSelect)
         {
-            if (_gameService.GetGame(gameView.Key) != null)
+            if (_gameService.GetByKey(gameView.Key) != null)
             {
                 ModelState.AddModelError("Key", Resources.Game.GameResource.KeyExistsError);
             }
@@ -99,9 +99,7 @@ namespace GameStore.WEB.Controllers
 
                 game.DateAdded = DateTime.UtcNow;
 
-                SetTranslate(game.GameTranslates, gameView);
-
-                _gameService.CreateGame(game);
+                _gameService.Create(game);
 
                 return Redirect("/games");
             }
@@ -115,7 +113,7 @@ namespace GameStore.WEB.Controllers
         [Authorize(Roles = "Administrator, Manager, Publisher")]
         public ActionResult Update(string key)
         {
-            var game = _gameService.GetGame(key);
+            var game = _gameService.GetByKey(key);
 
             if (GameEditAccess(game).Equals(new EmptyResult()))
             {
@@ -179,8 +177,6 @@ namespace GameStore.WEB.Controllers
                     game.PlatformTypes.Add(platformType);
                 }
 
-                SetTranslate(game.GameTranslates, gameView);
-
                 _gameService.UpdateGame(game);
 
                 return RedirectToAction("Details", new { key = game.Key });
@@ -221,8 +217,6 @@ namespace GameStore.WEB.Controllers
             {
                 return HttpNotFound();
             }
-
-            GameLanguageSelection(game);
 
             var gameView = Mapper.Map<Game, GameViewModel>(game);
 
@@ -279,21 +273,6 @@ namespace GameStore.WEB.Controllers
             if (DateTime.Parse(gameView.DatePublication) > DateTime.UtcNow)
             {
                 ModelState.AddModelError("DatePublication", Resources.Game.GameResource.PublicationDateExceedsError);
-            }
-        }
-
-        private void SetTranslate(ICollection<GameTranslate> gameTranslates, GameViewModel gameView)
-        {
-            if (!gameTranslates.Any())
-            {
-                gameTranslates.Add(new GameTranslate());
-            }
-
-            foreach (var translate in gameTranslates)
-            {
-                translate.Name = gameView.NameRU;
-                translate.Description = gameView.DescriptionRU;
-                translate.Language = "ru-RU";
             }
         }
 
@@ -354,11 +333,6 @@ namespace GameStore.WEB.Controllers
 
             var gamesPerPages = _gameService.Pagination(games, page, pageSize);
 
-            foreach (var game in gamesPerPages)
-            {
-                GameLanguageSelection(game);
-            }
-
             var gamesPerPagesView = Mapper.Map<IEnumerable<Game>, List<GameViewModel>>(gamesPerPages);
             var sortingDictionary = new Dictionary<string, SortFilter>
             {
@@ -385,44 +359,6 @@ namespace GameStore.WEB.Controllers
             };
 
             return indexView;
-        }
-
-        private void GameLanguageSelection(Game game)
-        {
-            var cultureName = Thread.CurrentThread.CurrentCulture.Name;
-
-            var gameTranslates =
-                game.GameTranslates.SingleOrDefault(x => x.GameId == game.Id && x.Language == cultureName);
-
-            if (gameTranslates != null)
-            {
-                if (gameTranslates.Name != null)
-                {
-                    game.Name = gameTranslates.Name;
-                }
-
-                if (gameTranslates.Description != null)
-                {
-                    game.Description = gameTranslates.Description;
-                }
-            }
-
-            foreach (var genre in game.Genres)
-            {
-                GenreLanguageSelection(genre);
-            }
-        }
-
-        private void GenreLanguageSelection(Genre genre)
-        {
-            var cultureName = Thread.CurrentThread.CurrentCulture.Name;
-
-            var genreTranslates = genre.GenreTranslates.SingleOrDefault(x => x.GenreId == genre.Id && x.Language == cultureName);
-
-            if (genreTranslates != null && genreTranslates.Name != null)
-            {
-                genre.Name = genreTranslates.Name;
-            }
         }
 
         private List<SelectListItem> CreateReleaseDateList()

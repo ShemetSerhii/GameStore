@@ -12,6 +12,8 @@ namespace GameStore.DAL.Interfaces
         
         Task<IEnumerable<TEntity>> GetAsync();
 
+        Task<TEntity> GetAsync(int id);
+
         Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate, 
             Func<IEnumerable<TEntity>, IOrderedEnumerable<TEntity>> sorting = null);
         
